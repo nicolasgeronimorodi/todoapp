@@ -1,6 +1,8 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import SessionProvider from '@/app/components/SessionProvider';
+import Header from '@/app/components/Header';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,7 +18,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+
+      <body className='flex min-h-full flex-col'>
+        <SessionProvider>
+          <Header />
+          <main className='grow'>
+          {children}
+          </main>
+        </SessionProvider>
+        </body>
     </html>
   )
 }
