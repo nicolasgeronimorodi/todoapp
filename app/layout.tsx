@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import SessionProvider from '@/app/components/SessionProvider';
 import Header from '@/app/components/Header';
-
+import ThemeProviderComponent from './components/ThemeProvider';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -21,10 +21,12 @@ export default function RootLayout({
 
       <body className='flex min-h-full flex-col'>
         <SessionProvider>
+          <ThemeProviderComponent>
           <Header />
           <main className='grow'>
           {children}
           </main>
+          </ThemeProviderComponent>
         </SessionProvider>
         </body>
     </html>
