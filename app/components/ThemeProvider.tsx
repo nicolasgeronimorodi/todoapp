@@ -4,7 +4,7 @@ import  { ReactNode } from "react"
 
 function ThemeProviderComponent({children,}:{children: ReactNode}){
     return (
-    <ThemeProvider>
+    <ThemeProvider attribute='class'>
         {children}
     </ThemeProvider>
     )

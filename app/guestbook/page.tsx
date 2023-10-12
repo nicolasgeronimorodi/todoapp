@@ -26,7 +26,7 @@ const Page = async () => {
         <ul className='mt-8 flex flex-col gap-y-2'>
           {entries.map(e => (
             <li key={e._id} className='flex gap-x-3'>
-              <span className='text-gray-500'>{e.name}:</span>
+              <span className='text-slate-900 text-black dark:text-neutral-400'>{e.name}:</span>
               <span>{e.message}</span>
             </li>
           ))}

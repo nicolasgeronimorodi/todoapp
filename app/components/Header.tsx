@@ -7,9 +7,8 @@ const Header = () => {
     <header className='flex h-24 flex-col justify-center'>
       <nav className='container'>
         <ul className='flex items-center justify-between gap-8 font-medium tracking-wider'>
-        <li>
-          <ThemeButton/>
-          </li>
+          <h1 className='font-bold'>Todo-app</h1>  
+     
           <li className='text-sm hover:shadow-lg hover:underline'>
             <Link href='/'>Home</Link>
           </li>
@@ -19,9 +18,13 @@ const Header = () => {
           <li className='text-sm hover:shadow-lg hover:underline'>
             <Link href='/protected/client'>Protected (client)</Link>
           </li>
-          <li className='text-sm hover:shadow-lg dark:hover:font-bold'>
-            <SignInButton />
+
+          
+          <li className='text-sm '>
+            <div > <SignInButton /> </div>
+            <div className='hover:shadow-lg dark:hover:font-bold'> <ThemeButton/></div>
           </li>
+
         
         </ul>
       

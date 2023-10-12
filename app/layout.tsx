@@ -19,11 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
 
-      <body className='flex min-h-full flex-col'>
+      <body className={inter.className}>
         <SessionProvider>
           <ThemeProviderComponent>
           <Header />
-          <main className='grow'>
+          <main className='flex min-h-full flex-col grow'>
           {children}
           </main>
           </ThemeProviderComponent>

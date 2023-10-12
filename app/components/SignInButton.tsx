@@ -88,7 +88,9 @@ const SignInButton = () => {
                     )}
                   >
                     <Cog8ToothIcon className='h-5 w-5 text-stone-400' />
-                    <span>Manage Account</span>
+                    <span>Manage Account 
+                      
+                    </span>
                   </Link>
                 )}
               </Menu.Item>
