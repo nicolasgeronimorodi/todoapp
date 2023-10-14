@@ -34,7 +34,7 @@ const GuestbookEntryForm = () => {
       <input
         type='text'
         name='name'
-        placeholder='Your name'
+        placeholder='Title'
         className='rounded border border-gray-600 bg-transparent px-3 py-1 dark:border-gray-600'
       />
       {validationError?.name && (
@@ -45,7 +45,7 @@ const GuestbookEntryForm = () => {
       <input
         type='text'
         name='message'
-        placeholder='Your message...'
+        placeholder='Task description...'
         className='rounded border border-gray-600 bg-transparent px-3 py-1 dark:border-gray-600'
       />
       {validationError?.message && (

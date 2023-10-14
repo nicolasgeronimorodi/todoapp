@@ -10,8 +10,8 @@ const AlternativeHeader = () => {
   <h1 className='font-black text-3xl mb-1'>todoapp</h1> 
     <ul className="flex items-center border border-zinc-600 rounded-md space-x-4 ml-2 px-4 ">
       <li className='hover:shadow-lg hover:underline'><Link href='/'>Home</Link></li>
-      <li className='hover:shadow-lg hover:underline'><Link href='/protected/server'>Protected (server)</Link></li>
-      <li className='hover:shadow-lg hover:underline'>  <Link href='/protected/client'>Protected (client)</Link></li>
+      <li className='hover:shadow-lg hover:underline'><Link href='/about'>About</Link></li>
+      <li className='hover:shadow-lg hover:underline'>  <Link href='/todo'>ToDo List</Link></li>
     </ul>
   </nav>
   <div className="flex space-x-4">

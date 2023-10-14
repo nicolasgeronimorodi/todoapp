@@ -19,7 +19,7 @@ const Page = async () => {
   return (
     <section className='py-24'>
       <div className='container'>
-        <h1 className='mb-8 text-3xl font-bold'>Guestbook</h1>
+        <h1 className='mb-8 text-3xl font-bold'>To-Do List</h1>
 
         <GuestbookEntryForm />
 
