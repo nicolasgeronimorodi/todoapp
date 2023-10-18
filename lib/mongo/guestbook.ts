@@ -1,4 +1,4 @@
-import { Collection, Db, Document, InsertOneResult, MongoClient } from 'mongodb'
+import { ObjectId, Collection, Db, Document, InsertOneResult, DeleteResult, MongoClient } from 'mongodb'
 import clientPromise from '@/lib/mongo/client'
 
 let client: MongoClient
@@ -28,6 +28,12 @@ type CreateGuestbookEntryResponse = {
   success: boolean;
   data?: InsertOneResult<Document>,
   error?: string,
+}
+
+type DeleteGuestbookEntryResponse = {
+  success: boolean;
+  data?: DeleteResult;
+  error?: string
 }
 
 async function init() {
@@ -75,5 +81,23 @@ export const createGuestbookEntry = async ({ name, message }:NewEntryProps): Pro
     return { success: true, data: result };
   } catch (error) {
     return { success: false, error: 'Failed to create entry!' };
+
   }
+}
+
+
+
+
+export const deleteGuestbookEntry =async (id: string):Promise<DeleteGuestbookEntryResponse> =>{
+try {
+   if (!guestbook) await init()
+   
+   const query = {_id: new ObjectId(id)}
+   const result = await guestbook.deleteOne(query);
+   return {success: true, data: result};
+
+} catch (error) {
+  return {success: false, error: 'Failed to delete entry'}
+}
+
 }
