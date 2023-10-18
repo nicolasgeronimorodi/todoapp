@@ -22,6 +22,7 @@ const Page = async () => {
     <section className='py-24'>
       <div className='container'>
         <h1 className='mb-8 text-3xl font-bold'>To-Do List</h1>
+        <h2 className='mb-5'>Write down your tasks so you can remember them later!</h2>
 
         <GuestbookEntryForm />
         <TodoList todos={entries}/>

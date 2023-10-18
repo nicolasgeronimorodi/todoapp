@@ -31,7 +31,7 @@ const UserProfileForm = () => {
 
   return (
     <div className='mt-12 w-2/3 rounded p-8 shadow-lg lg:w-1/2'>
-      <h2 className='mb-6 text-lg font-medium'>Update your info</h2>
+      <h2 className='mb-6 text-lg font-medium'>Update your username</h2>
 
       <form action={handleSubmit} className='flex justify-between gap-3'>
         <input
