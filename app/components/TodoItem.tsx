@@ -84,7 +84,11 @@ function TodoItem({ todo }: TodoItemProps) {
               <button onClick={handleEditClick}>
                 <PencilIcon className='h-5 w-5 text-blue-600' />
               </button>
-              <button formAction={async () => {}}>
+              <button
+                formAction={async () => {
+                  await deleteTodoItem(todo._id)
+                }}
+              >
                 <TrashIcon className='h-5 w-5 text-red-600' />
               </button>
             </div>
