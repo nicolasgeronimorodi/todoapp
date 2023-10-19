@@ -55,7 +55,6 @@ const SignInButton = () => {
                     <Image
                       alt={session?.user.name ?? 'Username'}
                       src={session.user.image}
-                     
                       className='inline-block rounded-full'
                       fill
                     />
@@ -75,7 +74,9 @@ const SignInButton = () => {
                   <p className='font-medium text-stone-600'>
                     {session?.user?.name ?? 'User name'}
                   </p>
-                  <p className='text-stone-400'>{session?.user?.email ?? 'email'}</p>
+                  <p className='text-stone-400'>
+                    {session?.user?.email ?? 'email'}
+                  </p>
                 </div>
               </div>
               <Menu.Item>
@@ -88,9 +89,7 @@ const SignInButton = () => {
                     )}
                   >
                     <Cog8ToothIcon className='h-5 w-5 text-stone-400' />
-                    <span>Manage Account 
-                      
-                    </span>
+                    <span>Manage Account</span>
                   </Link>
                 )}
               </Menu.Item>
@@ -104,9 +103,7 @@ const SignInButton = () => {
                     onClick={() => signOut()}
                   >
                     <ArrowRightOnRectangleIcon className='h-5 w-5 text-stone-400' />
-                    <span>
-                        Sign Out
-                    </span>
+                    <span>Sign Out</span>
                   </button>
                 )}
               </Menu.Item>
@@ -115,7 +112,7 @@ const SignInButton = () => {
         </Menu>
       ) : (
         <button
-          className='rounded-md border border-stone-300 hover:font-black px-3 py-1 text-sm dark:border-stone-600'
+          className='rounded-md border border-stone-300 px-3 py-1 text-sm hover:font-black dark:border-stone-600'
           onClick={() => signIn()}
         >
           Sign In

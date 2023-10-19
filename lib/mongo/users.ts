@@ -1,27 +1,25 @@
-import { Db, Collection, MongoClient, ObjectId, } from 'mongodb'
+import { Db, Collection, MongoClient, ObjectId } from 'mongodb'
 import clientPromise from '@/lib/mongo/client'
 
-let client: MongoClient 
+let client: MongoClient
 let db: Db
 let users: Collection<Document>
 
-
 export interface FindUserByIdProps {
-    userId: number
+  userId: number
 }
 
 export interface UpdateUserProps {
-    email: string,
-
+  email: string
 }
 
 export interface UpdateUserObject {
-    [key: string]:any
-} 
+  [key: string]: any
+}
 
 export interface UpdateUserResponse {
-    success: boolean,
-    error?: string
+  success: boolean
+  error?: string
 }
 
 async function init() {
@@ -39,9 +37,10 @@ async function init() {
 /// USERS ///
 /////////////
 
-
-
-export async function updateUser(email: string, update: UpdateUserObject):Promise<UpdateUserResponse>{
+export async function updateUser(
+  email: string,
+  update: UpdateUserObject
+): Promise<UpdateUserResponse> {
   try {
     if (!users) await init()
 

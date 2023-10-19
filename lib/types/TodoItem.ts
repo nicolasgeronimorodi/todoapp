@@ -1,5 +1,5 @@
 export interface TodoItem {
-    _id: string,
-    name: string,
-    message: string
+  _id: string
+  name: string
+  message: string
 }

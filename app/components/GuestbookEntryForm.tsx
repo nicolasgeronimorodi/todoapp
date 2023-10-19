@@ -3,15 +3,12 @@
 import { addGuestbookEntry } from '@/app/_actions'
 import { useRef, useState } from 'react'
 
-
-
 const GuestbookEntryForm = () => {
   const formRef = useRef<HTMLFormElement>(null)
   const [validationError, setValidationError] = useState<any>(null)
 
   // client action calling a server action
   async function action(data: FormData) {
-
     const newEntry = {
       name: data.get('name'),
       message: data.get('message')

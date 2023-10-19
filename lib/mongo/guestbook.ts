@@ -1,4 +1,13 @@
-import { ObjectId, Collection, Db, Document, InsertOneResult, DeleteResult, MongoClient } from 'mongodb'
+import {
+  ObjectId,
+  Collection,
+  Db,
+  Document,
+  InsertOneResult,
+  DeleteResult,
+  MongoClient,
+  UpdateResult
+} from 'mongodb'
 import clientPromise from '@/lib/mongo/client'
 
 let client: MongoClient
@@ -6,34 +15,43 @@ let db: Db
 let guestbook: Collection<Document>
 
 interface EntryResult {
-  _id: string,
-  name: string,
-  message: string,
+  _id: string
+  name: string
+  message: string
   updatedAt: Date
-
 }
 
 export interface NewEntryProps {
-  name: string,
+  name: string
   message: string
 }
 
 type GetGuestbookEntriesResponse = {
-  success: boolean,
-  data?: EntryResult[],
+  success: boolean
+  data?: EntryResult[]
   error?: string
 }
 
 type CreateGuestbookEntryResponse = {
-  success: boolean;
-  data?: InsertOneResult<Document>,
-  error?: string,
+  success: boolean
+  data?: InsertOneResult<Document>
+  error?: string
 }
 
 type DeleteGuestbookEntryResponse = {
-  success: boolean;
-  data?: DeleteResult;
+  success: boolean
+  data?: DeleteResult
   error?: string
+}
+
+type UpdateGuestbookEntryResponse = {
+  success: boolean
+  data?: UpdateResult
+  error?: string
+}
+
+export interface UpdateEntryObject {
+  [key: string]: any
 }
 
 async function init() {
@@ -55,49 +73,78 @@ async function init() {
 /// Guestbook ///
 ////////////////
 
-
 //Promise<{entries: EntryResult[]} | {error: string}>
-export const getGuestbookEntries = async (): Promise<GetGuestbookEntriesResponse> => {
+export const getGuestbookEntries =
+  async (): Promise<GetGuestbookEntriesResponse> => {
+    try {
+      if (!guestbook) await init()
+
+      console.log('fetching entries...')
+
+      const entries = await guestbook
+        .find({})
+        .map(
+          (entry): EntryResult => ({
+            _id: entry._id.toString(),
+            name: entry.name,
+            message: entry.message,
+            updatedAt: entry.date
+          })
+        )
+        .toArray()
+      return { success: true, data: entries }
+    } catch (error) {
+      return { success: false, error: 'Failed to fetch guestbook!' }
+    }
+  }
+
+export const createGuestbookEntry = async ({
+  name,
+  message
+}: NewEntryProps): Promise<CreateGuestbookEntryResponse> => {
   try {
     if (!guestbook) await init()
 
-    console.log('fetching entries...')
-
-    const entries = await guestbook
-      .find({})
-      .map((entry): EntryResult => ({_id: entry._id.toString(), name: entry.name, message: entry.message, updatedAt: entry.date }))
-      .toArray()
-    return { success: true, data: entries }
+    const result = await guestbook.insertOne({
+      name,
+      message,
+      updatedAt: new Date()
+    })
+    return { success: true, data: result }
   } catch (error) {
-    return { success: false, error: 'Failed to fetch guestbook!' }
+    return { success: false, error: 'Failed to create entry!' }
   }
 }
 
-export const createGuestbookEntry = async ({ name, message }:NewEntryProps): Promise<CreateGuestbookEntryResponse> => {
+export const deleteGuestbookEntry = async (
+  id: string
+): Promise<DeleteGuestbookEntryResponse> => {
   try {
     if (!guestbook) await init()
 
-    const result = await guestbook.insertOne({ name, message, updatedAt: new Date() })
-    return { success: true, data: result };
+    const query = { _id: new ObjectId(id) }
+    const result = await guestbook.deleteOne(query)
+    return { success: true, data: result }
   } catch (error) {
-    return { success: false, error: 'Failed to create entry!' };
-
+    return { success: false, error: 'Failed to delete entry' }
   }
 }
 
+export const updateGuestbookEntry = async (
+  id: string,
+  update: UpdateEntryObject
+): Promise<UpdateGuestbookEntryResponse> => {
+  try {
+    if (!guestbook) await init()
 
-
-
-export const deleteGuestbookEntry =async (id: string):Promise<DeleteGuestbookEntryResponse> =>{
-try {
-   if (!guestbook) await init()
-   
-   const query = {_id: new ObjectId(id)}
-   const result = await guestbook.deleteOne(query);
-   return {success: true, data: result};
-
-} catch (error) {
-  return {success: false, error: 'Failed to delete entry'}
-}
-
+    //const query = { _id: new ObjectId(id) }
+    const objectId = new ObjectId(id)
+    const result = await guestbook.updateOne(
+      { _id: objectId },
+      { $set: update }
+    )
+    return { success: true, data: result }
+  } catch (error) {
+    return { success: false, error: 'Failed to update entry' }
+  }
 }

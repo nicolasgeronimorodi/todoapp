@@ -13,10 +13,10 @@ const UserProfileForm = () => {
     const email = session?.user?.email
 
     if (!name || !email) return
-    const stringName: string = typeof name === 'string' ? name : name.toString();
+    const stringName: string = typeof name === 'string' ? name : name.toString()
 
     // Server action
-    await updateName({email, name: stringName})
+    await updateName({ email, name: stringName })
 
     // Update next-auth session
     await update({ name })

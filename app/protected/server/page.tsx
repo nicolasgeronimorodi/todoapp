@@ -1,14 +1,9 @@
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '../../api/auth/[...nextauth]/route'
-import { NextAuthOptions } from 'next-auth';
+import { NextAuthOptions } from 'next-auth'
 
 const ServerProtectedPage = async () => {
-
-
-
   const session = await getServerSession(authOptions)
-
-
 
   return (
     <section className='py-24'>
