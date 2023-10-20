@@ -2,11 +2,13 @@
 import { useState } from 'react'
 import {
   deleteTodoItem,
+  updateTodoItem,
   updateTodoItemDescription,
   updateTodoItemTitle
 } from '../_actions'
 import { TrashIcon, PencilIcon } from '@heroicons/react/24/outline'
 import { TodoItem } from '@/lib/types/TodoItem'
+import { revalidatePath } from 'next/cache'
 
 interface TodoItemProps {
   todo: TodoItem
@@ -35,12 +37,14 @@ function TodoItem({ todo }: TodoItemProps) {
 
   const handleConfirmClick = async () => {
     if (nameEdited && messageEdited) {
-      await updateTodoItemTitle(todo._id, editedName)
-      await updateTodoItemDescription(todo._id, editedMessage)
+      console.log('both fields got edited')
+      updateTodoItem(todo._id, { name: editedName, message: editedMessage })
     } else if (nameEdited) {
-      await updateTodoItemTitle(todo._id, editedName)
+      console.log('title field got edited')
+      await updateTodoItem(todo._id, { name: editedName })
     } else if (messageEdited) {
-      await updateTodoItemDescription(todo._id, editedMessage)
+      console.log('description field got edited')
+      await updateTodoItem(todo._id, { message: editedMessage })
     }
 
     setEditing(false)
@@ -68,7 +72,12 @@ function TodoItem({ todo }: TodoItemProps) {
               setMessageEdited(true)
             }}
           />
-          <button className='mr-2' onClick={handleConfirmClick}>
+          <button
+            formAction={() => {
+              handleConfirmClick()
+            }}
+            className='mr-2'
+          >
             Confirm
           </button>
           <button onClick={handleCancelClick}>Cancel</button>

@@ -1,7 +1,12 @@
 'use server'
 
+interface UpdateTodoItemObject {
+  name?: string
+  message?: string
+}
+
 //import {z} from 'zod';
-import { GuestEntrySchema } from '@/lib/zod/schema'
+import { GuestEntrySchema, UpdateEntrySchema } from '@/lib/zod/schema'
 import { updateUser } from '@/lib/mongo/users'
 import {
   createGuestbookEntry,
@@ -18,6 +23,30 @@ export async function updateName({
   name: string
 }) {
   await updateUser(email, { name })
+}
+
+export async function updateTodoItem(
+  id: string,
+  { name, message }: UpdateTodoItemObject
+) {
+  const updateFields: UpdateTodoItemObject = {}
+  if (name !== undefined && name !== null) {
+    updateFields.name = name
+  }
+  if (message !== undefined && message !== null) {
+    updateFields.message = message
+  }
+
+  const result = UpdateEntrySchema.safeParse(updateFields)
+  if (!result.success) {
+    return { error: result.error.format() }
+  }
+
+  const response = await updateGuestbookEntry(id, updateFields)
+  if (!response.success) {
+    throw new Error(response.error)
+  }
+  revalidatePath('/')
 }
 
 export async function addGuestbookEntry(data: unknown) {
@@ -41,7 +70,6 @@ export async function updateTodoItemTitle(id: string, name: string) {
   if (!response.success) {
     throw new Error(response.error)
   }
-  revalidatePath('/')
 }
 
 export async function updateTodoItemDescription(id: string, message: string) {
@@ -49,7 +77,6 @@ export async function updateTodoItemDescription(id: string, message: string) {
   if (!response.success) {
     throw new Error(response.error)
   }
-  revalidatePath('/')
 }
 
 export async function deleteTodoItem(id: string) {
