@@ -15,6 +15,8 @@ import {
 
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline'
 import { TrashIcon, PencilIcon } from '@heroicons/react/24/outline'
+import { deleteTodoItem } from '@/app/_actions'
+
 export const columns: ColumnDef<TodoItem>[] = [
   {
     accessorKey: 'name',
@@ -27,7 +29,7 @@ export const columns: ColumnDef<TodoItem>[] = [
     accessorKey: 'message',
     header: () => <div className='text-center font-black'>Description</div>,
     cell: ({ row }) => {
-      return <div className='text-center'>{row.getValue('name')}</div>
+      return <div className='text-center'>{row.getValue('message')}</div>
     }
   },
 
@@ -35,6 +37,7 @@ export const columns: ColumnDef<TodoItem>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
+      const todo = row.original
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -47,9 +50,15 @@ export const columns: ColumnDef<TodoItem>[] = [
             <DropdownMenuLabel className='font-light'>
               Actions
             </DropdownMenuLabel>
-            <DropdownMenuItem>
-              <TrashIcon className='h-5 w-5 text-red-600' />
-            </DropdownMenuItem>
+            <form className='mb-2 flex items-center'>
+              <button
+                formAction={async () => {
+                  await deleteTodoItem(todo._id)
+                }}
+              >
+                <TrashIcon className='h-5 w-5 text-red-600' />
+              </button>
+            </form>
           </DropdownMenuContent>
         </DropdownMenu>
       )
