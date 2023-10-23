@@ -2,6 +2,7 @@ import { getGuestbookEntries } from '@/lib/mongo/guestbook'
 import GuestbookEntryForm from '@/app/components/GuestbookEntryForm'
 import TodoItem from '../components/TodoItem'
 import TodoList from '../components/TodoList'
+import TodoTable from '../components/TodoTable'
 export const dynamic = 'force-dynamic'
 
 async function getData() {
@@ -26,7 +27,7 @@ const Page = async () => {
         </h2>
 
         <GuestbookEntryForm />
-        <TodoList todos={entries} />
+        <TodoTable todos={entries} />
       </div>
     </section>
   )
