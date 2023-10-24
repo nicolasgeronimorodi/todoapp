@@ -5,6 +5,7 @@ import { TrashIcon, PencilIcon } from '@heroicons/react/24/outline'
 import { TableCell, TableRow } from '@/shadcn/ui/table'
 
 import { deleteTodoItem, updateTodoItem } from '../_actions'
+import { Tab } from '@headlessui/react'
 interface TodoTableRowProps {
   todo: TodoItem
 }
@@ -49,40 +50,51 @@ function TodoTableRow({ todo }: TodoTableRowProps) {
   }
 
   return (
-    <form>
-      <TableRow>
-        {isEditing ? (
-          <>
-            <TableCell className='text-center font-medium'>
-              <input
-                type='text'
-                className='mr-2 rounded border border-gray-300 px-2 py-1'
-                value={editedName}
-                onChange={e => {
-                  setEditedName(e.target.value)
-                  setNameGotEdited(true)
+    <>
+      {isEditing ? (
+        <TableRow>
+          <TableCell>
+            <input
+              type='text'
+              className='mr-2 rounded border border-gray-300 px-2 py-1'
+              value={editedName}
+              onChange={e => {
+                setEditedName(e.target.value)
+                setNameGotEdited(true)
+              }}
+            />
+          </TableCell>
+          <TableCell>
+            <input
+              type='text'
+              className='mr-2 rounded border border-gray-300 px-2 py-1'
+              value={editedMessage}
+              onChange={e => {
+                setEditedMessage(e.target.value)
+                setMessageGotEdited(true)
+              }}
+            />
+          </TableCell>
+          <TableCell>
+            <form>
+              <button
+                formAction={() => {
+                  handleConfirmClick()
                 }}
-              />
-            </TableCell>
-            <TableCell className='text-center'>
-              <input
-                type='text'
-                className='mr-2 rounded border border-gray-300 px-2 py-1'
-                value={editedMessage}
-                onChange={e => {
-                  setEditedMessage(e.target.value)
-                  setMessageGotEdited(true)
-                }}
-              />
-            </TableCell>
-          </>
-        ) : (
-          <>
-            <TableCell className='text-center font-medium'>
-              {todo.name}l
-            </TableCell>
-            <TableCell className='text-center'>{todo.message}</TableCell>
-            <TableCell className='flex justify-center space-x-4'>
+                className='mr-2'
+              >
+                Confirm
+              </button>
+              <button onClick={handleCancelClick}>Cancel</button>
+            </form>
+          </TableCell>
+        </TableRow>
+      ) : (
+        <TableRow>
+          <TableCell className='text-center font-medium'>{todo.name}</TableCell>
+          <TableCell className='text-center'>{todo.message}</TableCell>
+          <TableCell className='flex justify-center space-x-4'>
+            <form className='mb-2 flex items-center'>
               <div>
                 <button onClick={handleEditClick}>
                   <PencilIcon className='h-5 w-5 text-blue-600' />
@@ -97,11 +109,11 @@ function TodoTableRow({ todo }: TodoTableRowProps) {
                   <TrashIcon className='h-5 w-5 text-red-600' />
                 </button>
               </div>
-            </TableCell>
-          </>
-        )}
-      </TableRow>
-    </form>
+            </form>
+          </TableCell>
+        </TableRow>
+      )}
+    </>
   )
 }
 
