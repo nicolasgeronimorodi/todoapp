@@ -16,7 +16,7 @@ import TodoTableRow from './TodoTableRow'
 
 export default async function TodoTable({ todos }: TodoTableProps) {
   return (
-    <div className='container mx-auto py-10'>
+    <div className='mt-3 rounded-md border border-slate-600'>
       <Table>
         <TableHeader>
           <TableRow>

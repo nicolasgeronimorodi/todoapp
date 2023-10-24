@@ -52,7 +52,7 @@ function TodoTableRow({ todo }: TodoTableRowProps) {
   return (
     <>
       {isEditing ? (
-        <TableRow>
+        <TableRow className='hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-900 dark:hover:text-zinc-100'>
           <TableCell>
             <input
               type='text'
@@ -83,24 +83,30 @@ function TodoTableRow({ todo }: TodoTableRowProps) {
                 }}
                 className='mr-2'
               >
-                Confirm
+                <p className='rounded-md hover:bg-zinc-400 dark:hover:bg-slate-700'>
+                  Confirm
+                </p>
               </button>
-              <button onClick={handleCancelClick}>Cancel</button>
+              <button onClick={handleCancelClick}>
+                <p className='rounded-md hover:bg-zinc-400 dark:hover:bg-slate-700'>
+                  Cancel
+                </p>
+              </button>
             </form>
           </TableCell>
         </TableRow>
       ) : (
-        <TableRow>
+        <TableRow className='hover:bg-zinc-300 hover:text-zinc-900 dark:hover:bg-zinc-900 dark:hover:text-zinc-100'>
           <TableCell className='text-center font-medium'>{todo.name}</TableCell>
           <TableCell className='text-center'>{todo.message}</TableCell>
           <TableCell className='flex justify-center space-x-4'>
-            <form className='mb-2 flex items-center'>
-              <div>
+            <form className='mb-2 flex items-center gap-2'>
+              <div className='rounded-md hover:bg-zinc-400 dark:hover:bg-slate-700'>
                 <button onClick={handleEditClick}>
                   <PencilIcon className='h-5 w-5 text-blue-600' />
                 </button>
               </div>
-              <div>
+              <div className='rounded-md hover:bg-zinc-400 dark:hover:bg-slate-700'>
                 <button
                   formAction={async () => {
                     await deleteTodoItem(todo._id)
