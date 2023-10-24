@@ -1,15 +1,72 @@
-import { DataTable } from './ReusableTable'
-import { TodoItem } from '@/lib/types/TodoItem'
-import { columns } from './TodoTableColumns/columns'
+//import { DataTable } from './ReusableTable'
+//import { columns } from './TodoTableColumns/columns'
 
+import { TodoItem } from '@/lib/types/TodoItem'
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/shadcn/ui/table'
 interface TodoTableProps {
   todos: TodoItem[]
 }
+import TodoTableRow from './TodoTableRow'
 
 export default async function TodoTable({ todos }: TodoTableProps) {
   return (
     <div className='container mx-auto py-10'>
-      <DataTable columns={columns} data={todos} />
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className='text-center'>Title</TableHead>
+            <TableHead className='text-center'>Description</TableHead>
+            <TableHead className='text-center'>Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {todos.map(e => (
+            <TodoTableRow
+              todo={{ _id: e._id, name: e.name, message: e.message }}
+            />
+          ))}
+        </TableBody>
+      </Table>
     </div>
   )
+}
+
+{
+  /*
+        <Table key={e._id}>
+          <TableHeader>
+            <TableRow>
+              <TableHead className='text-center'>Title</TableHead>
+              <TableHead className='text-center'>Description</TableHead>
+              <TableHead className='text-center'>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className='text-center font-medium'>
+                {e.name}l
+              </TableCell>
+              <TableCell className='text-center'>{e.message}</TableCell>
+              <TableCell className='flex justify-center space-x-4'>
+                <div>
+                  <form>
+                    <button >
+                  <PencilIcon className='h-5 w-5 text-blue-600' />
+                  </button>
+                  </form>
+                </div>
+                <div>
+                  <TrashIcon className='h-5 w-5 text-red-600' />
+                </div>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+  */
 }
