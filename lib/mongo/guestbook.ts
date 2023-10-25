@@ -9,6 +9,7 @@ import {
   UpdateResult
 } from 'mongodb'
 import clientPromise from '@/lib/mongo/client'
+import { number, string } from 'zod'
 
 let client: MongoClient
 let db: Db
@@ -72,6 +73,10 @@ async function init() {
 /////////////////
 /// Guestbook ///
 ////////////////
+
+async function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
 
 //Promise<{entries: EntryResult[]} | {error: string}>
 export const getGuestbookEntries =
@@ -148,3 +153,72 @@ export const updateGuestbookEntry = async (
     return { success: false, error: 'Failed to update entry' }
   }
 }
+
+export const searchTodos = async ({
+  query,
+  page = 1,
+  limit = 10
+}: {
+  query?: string
+  page: number
+  limit: number
+}) => {
+  try {
+    if (!guestbook) await init()
+    const skip = (page - 1) * limit
+    const pipeline: PipelineStage[] = [{ $skip: skip }, { $limit: limit }]
+    if (query) {
+      pipeline.unshift({
+        $search: {
+          index: 'default',
+          text: {
+            query,
+            fuzzy: {
+              maxEdits: 1,
+              prefixLength: 3,
+              maxExpansions: 50
+            },
+            path: {
+              wildcard: '*'
+            }
+          }
+        }
+      })
+    }
+    await sleep(1000)
+    const entries = await guestbook
+      .aggregate(pipeline)
+      .map(
+        (entry): EntryResult => ({
+          _id: entry._id.toString(),
+          name: entry.name,
+          message: entry.message,
+          updatedAt: entry.date
+        })
+      )
+      .toArray()
+    return { success: true, data: entries }
+  } catch (error) {
+    return { success: false, error: 'Failed to fetch guestbook!' }
+  }
+}
+
+type PipelineStage =
+  | {
+      $search: {
+        index: string
+        text: {
+          query: string
+          fuzzy: {}
+          path: {
+            wildcard: string
+          }
+        }
+      }
+    }
+  | {
+      $skip: number
+    }
+  | {
+      $limit: number
+    }
