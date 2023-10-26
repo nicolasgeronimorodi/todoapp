@@ -19,10 +19,10 @@ export default async function TodoTable({ todos }: TodoTableProps) {
     <div className='mt-3 rounded-md border border-slate-600'>
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead className='text-center'>Title</TableHead>
-            <TableHead className='text-center'>Description</TableHead>
-            <TableHead className='text-center'>Actions</TableHead>
+          <TableRow className='bg-slate-300 dark:bg-slate-800'>
+            <TableHead className='text-center font-bold'>Title</TableHead>
+            <TableHead className='text-center font-bold'>Description</TableHead>
+            <TableHead className='text-center font-bold'>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
