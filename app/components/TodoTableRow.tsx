@@ -52,7 +52,7 @@ function TodoTableRow({ todo }: TodoTableRowProps) {
   return (
     <>
       {isEditing ? (
-        <TableRow className='hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-900 dark:hover:text-zinc-100'>
+        <TableRow className='justify-items-center hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-900 dark:hover:text-zinc-100'>
           <TableCell>
             <input
               type='text'

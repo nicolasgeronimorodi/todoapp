@@ -6,8 +6,16 @@ import Search from '../components/Search'
 import Await from '../components/Await'
 export const dynamic = 'force-dynamic'
 
-async function getData() {
-  const { data, error } = await getGuestbookEntries()
+async function getData({
+  page,
+  limit,
+  query
+}: {
+  page: number
+  limit: number
+  query: string | undefined
+}) {
+  const { data, error } = await searchTodos({ page, limit, query })
 
   if (!data || error) {
     throw new Error('Failed to fetch entries.')
@@ -29,7 +37,7 @@ const Page = async ({
   const search =
     typeof searchParams.search === 'string' ? searchParams.search : undefined
 
-  const promise = searchTodos({ page, limit, query: search })
+  const data = await getData({ page, limit, query: search })
 
   return (
     <section className='py-24'>
@@ -40,12 +48,11 @@ const Page = async ({
         </h2>
 
         <GuestbookEntryForm />
+        <br></br>
         <Search />
 
         <Suspense fallback={<h1>Loading table...</h1>}>
-          <Await promise={promise}>
-            {({ data }) => <TodoTable todos={data} />}
-          </Await>
+          <TodoTable todos={data} />
         </Suspense>
       </div>
     </section>
