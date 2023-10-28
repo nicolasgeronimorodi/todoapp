@@ -2,7 +2,7 @@
 
 import { addGuestbookEntry } from '@/app/_actions'
 import { useRef, useState } from 'react'
-
+import SubmitButton from '@/app/components/SubmitButton'
 const GuestbookEntryForm = () => {
   const formRef = useRef<HTMLFormElement>(null)
   const [validationError, setValidationError] = useState<any>(null)
@@ -50,12 +50,9 @@ const GuestbookEntryForm = () => {
           {validationError.message._errors.join(', ')}
         </p>
       )}
-      <button
-        type='submit'
-        className='rounded bg-black px-3 py-1 text-white disabled:opacity-50 dark:bg-white dark:text-black'
-      >
-        Add
-      </button>
+      <SubmitButton style='rounded bg-black px-3 py-1 text-white disabled:opacity-50 dark:bg-white dark:text-black'>
+        <h3>Add</h3>
+      </SubmitButton>
     </form>
   )
 }

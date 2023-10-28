@@ -6,6 +6,7 @@ import { TableCell, TableRow } from '@/shadcn/ui/table'
 
 import { deleteTodoItem, updateTodoItem } from '../_actions'
 import { Tab } from '@headlessui/react'
+import SubmitButton from './SubmitButton'
 interface TodoTableRowProps {
   todo: TodoItem
 }
@@ -52,7 +53,7 @@ function TodoTableRow({ todo }: TodoTableRowProps) {
   return (
     <>
       {isEditing ? (
-        <TableRow className='justify-items-center hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-900 dark:hover:text-zinc-100'>
+        <TableRow className='justify-items-center gap-x-5 hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-900 dark:hover:text-zinc-100'>
           <TableCell>
             <input
               type='text'
@@ -77,7 +78,19 @@ function TodoTableRow({ todo }: TodoTableRowProps) {
           </TableCell>
           <TableCell>
             <form>
-              <button
+              <SubmitButton
+                style='mr-2'
+                formAction={() => {
+                  handleConfirmClick()
+                }}
+              >
+                <p className='rounded-md hover:bg-zinc-400 dark:hover:bg-slate-700'>
+                  Confirm
+                </p>
+              </SubmitButton>
+
+              {/* 
+   <button
                 formAction={() => {
                   handleConfirmClick()
                 }}
@@ -87,6 +100,10 @@ function TodoTableRow({ todo }: TodoTableRowProps) {
                   Confirm
                 </p>
               </button>
+
+
+*/}
+
               <button onClick={handleCancelClick}>
                 <p className='rounded-md hover:bg-zinc-400 dark:hover:bg-slate-700'>
                   Cancel
@@ -107,13 +124,13 @@ function TodoTableRow({ todo }: TodoTableRowProps) {
                 </button>
               </div>
               <div className='rounded-md hover:bg-zinc-400 dark:hover:bg-slate-700'>
-                <button
+                <SubmitButton
                   formAction={async () => {
                     await deleteTodoItem(todo._id)
                   }}
                 >
                   <TrashIcon className='h-5 w-5 text-red-600' />
-                </button>
+                </SubmitButton>
               </div>
             </form>
           </TableCell>
