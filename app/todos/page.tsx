@@ -1,9 +1,10 @@
 import { getGuestbookEntries, searchTodos } from '@/lib/mongo/guestbook'
 import GuestbookEntryForm from '@/app/components/GuestbookEntryForm'
 import { Suspense } from 'react'
+import { TailSpin } from '@/app/components/TailSpin'
 import TodoTable from '../components/TodoTable'
 import Search from '../components/Search'
-import Await from '../components/Await'
+
 export const dynamic = 'force-dynamic'
 
 async function getData({
@@ -51,7 +52,21 @@ const Page = async ({
         <br></br>
         <Search />
 
-        <Suspense fallback={<h1>Loading table...</h1>}>
+        <Suspense
+          fallback={
+            <div className='flex justify-center'>
+              <TailSpin
+                height='80'
+                width='80'
+                color='#4fa94d'
+                ariaLabel='tail-spin-loading'
+                radius='1'
+                visible={true}
+                wrapperClass='bg-inherit'
+              />
+            </div>
+          }
+        >
           <TodoTable todos={data} />
         </Suspense>
       </div>

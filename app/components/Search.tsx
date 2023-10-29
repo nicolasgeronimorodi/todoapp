@@ -19,7 +19,7 @@ const Search = ({ search }: { search?: string }) => {
     }
 
     if (!query) {
-      router.push(`/todo`)
+      router.push(`/todos`)
     } else {
       router.push(`/todo?search=${query}`)
     }

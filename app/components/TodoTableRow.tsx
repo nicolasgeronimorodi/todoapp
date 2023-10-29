@@ -53,8 +53,8 @@ function TodoTableRow({ todo }: TodoTableRowProps) {
   return (
     <>
       {isEditing ? (
-        <TableRow className='justify-items-center gap-x-5 hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-900 dark:hover:text-zinc-100'>
-          <TableCell>
+        <TableRow className='justify-between gap-x-5 hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-900 dark:hover:text-zinc-100'>
+          <TableCell className='px-5'>
             <input
               type='text'
               className='mr-2 rounded border border-gray-300 px-2 py-1'
@@ -65,7 +65,7 @@ function TodoTableRow({ todo }: TodoTableRowProps) {
               }}
             />
           </TableCell>
-          <TableCell>
+          <TableCell className='px-5'>
             <input
               type='text'
               className='mr-2 rounded border border-gray-300 px-2 py-1'
@@ -88,22 +88,6 @@ function TodoTableRow({ todo }: TodoTableRowProps) {
                   Confirm
                 </p>
               </SubmitButton>
-
-              {/* 
-   <button
-                formAction={() => {
-                  handleConfirmClick()
-                }}
-                className='mr-2'
-              >
-                <p className='rounded-md hover:bg-zinc-400 dark:hover:bg-slate-700'>
-                  Confirm
-                </p>
-              </button>
-
-
-*/}
-
               <button onClick={handleCancelClick}>
                 <p className='rounded-md hover:bg-zinc-400 dark:hover:bg-slate-700'>
                   Cancel

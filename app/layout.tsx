@@ -3,8 +3,9 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import SessionProvider from '@/app/components/SessionProvider'
 import 'react-toastify/dist/ReactToastify.css'
-import AlternativeHeader from './components/AlternativeHeader'
+import Header from './components/Header'
 import ThemeProviderComponent from './components/ThemeProvider'
+import { SSRProvider } from '@/app/components/bootstrap'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -22,7 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <SessionProvider>
           <ThemeProviderComponent>
-            <AlternativeHeader />
+            <Header />
             <main className='flex min-h-full grow flex-col'>{children}</main>
           </ThemeProviderComponent>
         </SessionProvider>

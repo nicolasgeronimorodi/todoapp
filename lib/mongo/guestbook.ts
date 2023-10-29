@@ -185,7 +185,7 @@ export const searchTodos = async ({
         }
       })
     }
-    await sleep(1000)
+
     const entries = await guestbook
       .aggregate(pipeline)
       .map(
