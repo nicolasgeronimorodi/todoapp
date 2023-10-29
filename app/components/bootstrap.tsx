@@ -1,2 +1,2 @@
 'use client'
-export { Spinner } from 'react-bootstrap'
+export { Spinner, SSRProvider } from 'react-bootstrap'
