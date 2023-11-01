@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth'
 import type { NextAuthOptions } from 'next-auth'
 import GithubProvider from 'next-auth/providers/github'
-
+import { ObjectId } from 'mongodb'
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
 import clientPromise from '@/lib/mongo/client'
 
@@ -17,8 +17,12 @@ export const authOptions: NextAuthOptions = {
       if (trigger === 'update' && session?.name) {
         token.name = session.name
       }
-
       return token
+    },
+    async session({ session, user }) {
+      console.log(user.id)
+      session.user._id = user.id
+      return session
     }
   },
   pages: {
@@ -26,7 +30,7 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: MongoDBAdapter(clientPromise),
   session: {
-    strategy: 'jwt'
+    strategy: 'database'
   }
 }
 

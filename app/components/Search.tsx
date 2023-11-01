@@ -21,7 +21,7 @@ const Search = ({ search }: { search?: string }) => {
     if (!query) {
       router.push(`/todos`)
     } else {
-      router.push(`/todo?search=${query}`)
+      router.push(`/todos?search=${query}`)
     }
   }, [query])
 

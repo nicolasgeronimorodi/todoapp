@@ -23,6 +23,7 @@ interface EntryResult {
 }
 
 export interface NewEntryProps {
+  userId: string
   name: string
   message: string
 }
@@ -104,6 +105,7 @@ export const getGuestbookEntries =
   }
 
 export const createGuestbookEntry = async ({
+  userId,
   name,
   message
 }: NewEntryProps): Promise<CreateGuestbookEntryResponse> => {
@@ -111,6 +113,7 @@ export const createGuestbookEntry = async ({
     if (!guestbook) await init()
 
     const result = await guestbook.insertOne({
+      userId,
       name,
       message,
       updatedAt: new Date()
@@ -155,10 +158,12 @@ export const updateGuestbookEntry = async (
 }
 
 export const searchTodos = async ({
+  userId,
   query,
   page = 1,
   limit = 10
 }: {
+  userId: string
   query?: string
   page: number
   limit: number
@@ -166,7 +171,11 @@ export const searchTodos = async ({
   try {
     if (!guestbook) await init()
     const skip = (page - 1) * limit
-    const pipeline: PipelineStage[] = [{ $skip: skip }, { $limit: limit }]
+    const pipeline: PipelineStage[] = [
+      { $match: { userId: userId } },
+      { $skip: skip },
+      { $limit: limit }
+    ]
     if (query) {
       pipeline.unshift({
         $search: {
@@ -221,4 +230,9 @@ type PipelineStage =
     }
   | {
       $limit: number
+    }
+  | {
+      $match: {
+        userId: string
+      }
     }

@@ -77,6 +77,7 @@ const SignInButton = () => {
                   <p className='text-stone-400'>
                     {session?.user?.email ?? 'email'}
                   </p>
+                  <p className='text-stone-400'>{session?.user?._id ?? 'id'}</p>
                 </div>
               </div>
               <Menu.Item>

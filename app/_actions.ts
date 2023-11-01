@@ -49,7 +49,9 @@ export async function updateTodoItem(
   revalidatePath('/')
 }
 
-export async function addGuestbookEntry(data: unknown) {
+export async function addGuestbookEntry(data: any) {
+  const { userId } = data
+
   //Start of action level validation
   const result = GuestEntrySchema.safeParse(data)
   if (!result.success) {
@@ -58,7 +60,7 @@ export async function addGuestbookEntry(data: unknown) {
   const { name, message } = result.data
   //End of action level validation
 
-  const response = await createGuestbookEntry({ name, message })
+  const response = await createGuestbookEntry({ userId, name, message })
   if (!response.success) {
     throw new Error(response.error)
   }

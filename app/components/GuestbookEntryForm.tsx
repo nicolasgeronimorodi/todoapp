@@ -1,15 +1,18 @@
 'use client'
+import { useSession } from 'next-auth/react'
 
 import { addGuestbookEntry } from '@/app/_actions'
 import { useRef, useState } from 'react'
 import SubmitButton from '@/app/components/SubmitButton'
 const GuestbookEntryForm = () => {
+  const { data: session } = useSession()
   const formRef = useRef<HTMLFormElement>(null)
   const [validationError, setValidationError] = useState<any>(null)
 
   // client action calling a server action
   async function action(data: FormData) {
     const newEntry = {
+      userId: session?.user._id,
       name: data.get('name'),
       message: data.get('message')
     }

@@ -1,22 +1,29 @@
-import { getGuestbookEntries, searchTodos } from '@/lib/mongo/guestbook'
+import { authOptions } from '../api/auth/[...nextauth]/route'
+import { getServerSession } from 'next-auth'
+
+import { useSession } from 'next-auth/react'
+
+import { searchTodos } from '@/lib/mongo/guestbook'
 import GuestbookEntryForm from '@/app/components/GuestbookEntryForm'
 import { Suspense } from 'react'
 import { TailSpin } from '@/app/components/TailSpin'
 import TodoTable from '../components/TodoTable'
 import Search from '../components/Search'
-
+import { TodoItem } from '@/lib/types/TodoItem'
 export const dynamic = 'force-dynamic'
 
 async function getData({
+  userId,
   page,
   limit,
   query
 }: {
+  userId: string
   page: number
   limit: number
   query: string | undefined
 }) {
-  const { data, error } = await searchTodos({ page, limit, query })
+  const { data, error } = await searchTodos({ userId, page, limit, query })
 
   if (!data || error) {
     throw new Error('Failed to fetch entries.')
@@ -38,7 +45,20 @@ const Page = async ({
   const search =
     typeof searchParams.search === 'string' ? searchParams.search : undefined
 
-  const data = await getData({ page, limit, query: search })
+  //const {data: session}=useSession();
+
+  const session = await getServerSession(authOptions)
+  const userId = session?.user._id
+  let todos: TodoItem[]
+  try {
+    if (typeof userId === 'undefined') {
+      throw new Error('UserID is undefined')
+    }
+    todos = await getData({ userId, page, limit, query: search })
+  } catch (error) {
+    console.error('Error fetching data:', error)
+    todos = []
+  }
 
   return (
     <section className='py-24'>
@@ -67,7 +87,7 @@ const Page = async ({
             </div>
           }
         >
-          <TodoTable todos={data} />
+          <TodoTable todos={todos} />
         </Suspense>
       </div>
     </section>
