@@ -1,4 +1,5 @@
 import { authOptions } from '../api/auth/[...nextauth]/route'
+import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { searchTodos } from '@/lib/mongo/guestbook'
 import GuestbookEntryForm from '@/app/components/GuestbookEntryForm'
@@ -42,9 +43,10 @@ const Page = async ({
   const search =
     typeof searchParams.search === 'string' ? searchParams.search : undefined
 
-  //const {data: session}=useSession();
-
   const session = await getServerSession(authOptions)
+  if (!session || !session.user) {
+    redirect('/signin')
+  }
   const userId = session?.user._id
   let todos: TodoItem[]
   try {
