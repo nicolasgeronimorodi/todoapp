@@ -1,14 +1,28 @@
+'use client'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 const Home = () => {
+  const [mounted, setMounted] = useState(false)
+  const { resolvedTheme } = useTheme()
+
+  useEffect(() => setMounted(true), [])
+  if (!mounted) {
+    return null
+  }
   return (
-    <div className='mx-2 my-2 flex flex-col items-center justify-center'>
-      <div className='rounded shadow-lg'>
-        <h1 className='mb-4 text-3xl font-bold'>Home</h1>
-        <p className='leading-relaxed'>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non
-          purus nec neque condimentum commodo. Vivamus aliquet, purus nec
-          dignissim aliquet, diam turpis cursus quam, nec commodo elit turpis id
-          nisi.
+    <div className='mx-2 my-10 flex flex-row items-center justify-evenly'>
+      <div className='rounded p-8 text-center '>
+        <h1 className='text-primary mb-4 text-4xl font-black'>todoapp</h1>
+        <p className='mb-6 text-lg'>
+          Anotar tareas nunca fue tan facil y simple
         </p>
+      </div>
+      <div>
+        {resolvedTheme === 'dark' ? (
+          <img width={400} height={400} src='/undraw_tasks.svg' />
+        ) : (
+          <img width={400} height={400} src='/undraw_tasks.svg' />
+        )}
       </div>
     </div>
   )
