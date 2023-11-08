@@ -9,13 +9,15 @@ const GithubSignInButton = () => {
   const [mounted, setMounted] = useState(false)
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl') ?? undefined
-  const { resolvedTheme } = useTheme()
-  const fillColor = resolvedTheme === 'dark' ? '#FFFFFF' : '#2B414D'
+  const { theme } = useTheme()
+  console.log('theme ', theme)
+  const fillColor = theme === 'dark' ? '#FFFFFF' : '#2B414D'
 
+  /*
   useEffect(() => setMounted(true), [])
   if (!mounted) {
     return null
-  }
+  } */
 
   return (
     <Button
