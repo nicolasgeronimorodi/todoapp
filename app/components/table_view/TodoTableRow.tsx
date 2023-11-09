@@ -4,9 +4,9 @@ import { TodoItem } from '@/lib/types/TodoItem'
 import { TrashIcon, PencilIcon } from '@heroicons/react/24/outline'
 import { TableCell, TableRow } from '@/shadcn/ui/table'
 
-import { deleteTodoItem, updateTodoItem } from '../_actions'
-import { Tab } from '@headlessui/react'
-import SubmitButton from './SubmitButton'
+import { deleteTodoItem, updateTodoItem } from '../../_actions'
+
+import SubmitButton from '../SubmitButton'
 interface TodoTableRowProps {
   todo: TodoItem
 }

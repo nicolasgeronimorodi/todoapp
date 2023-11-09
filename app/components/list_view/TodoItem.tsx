@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { deleteTodoItem, updateTodoItem } from '../_actions'
+import { deleteTodoItem, updateTodoItem } from '../../_actions'
 import { TrashIcon, PencilIcon } from '@heroicons/react/24/outline'
 import { TodoItem } from '@/lib/types/TodoItem'
 import {

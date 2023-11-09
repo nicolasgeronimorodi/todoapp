@@ -5,7 +5,8 @@ import { searchTodos } from '@/lib/mongo/guestbook'
 import GuestbookEntryForm from '@/app/components/GuestbookEntryForm'
 import { Suspense } from 'react'
 import { TailSpin } from '@/app/components/TailSpin'
-import TodoTable from '../components/TodoTable'
+//import TodoTable from '../components/table_view/TodoTable'
+import TodoCardGrid from '../components/card_view/TodoCardGrid'
 import Search from '../components/Search'
 import { TodoItem } from '@/lib/types/TodoItem'
 export const dynamic = 'force-dynamic'
@@ -86,7 +87,7 @@ const Page = async ({
             </div>
           }
         >
-          <TodoTable todos={todos} />
+          <TodoCardGrid todos={todos} />
         </Suspense>
       </div>
     </section>

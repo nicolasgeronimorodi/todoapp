@@ -1,6 +1,6 @@
 import TodoItem from './TodoItem'
 interface TodoListProps {
-  todos: TodoItem[]
+  todos: TodoItem[] /// It should be of the lib type TodoItem, not an array of JSX Elements!!!
 }
 
 function TodoList({ todos }: TodoListProps) {
