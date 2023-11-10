@@ -9,6 +9,7 @@ import { TailSpin } from '@/app/components/TailSpin'
 import TodoCardGrid from '../components/card_view/TodoCardGrid'
 import Search from '../components/Search'
 import { TodoItem } from '@/lib/types/TodoItem'
+import TodoList from '../components/list_view/TodoList'
 export const dynamic = 'force-dynamic'
 
 async function getData({
