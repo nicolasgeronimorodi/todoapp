@@ -118,13 +118,13 @@ export default function TodoCard({ todo }: TodoCardProps) {
                   <PencilIcon className='h-5 w-5 text-blue-600' />
                 </button>
 
-                <button
+                <SubmitButton
                   formAction={async () => {
                     await deleteTodoItem(todo._id)
                   }}
                 >
                   <TrashIcon className='h-5 w-5 text-red-600' />
-                </button>
+                </SubmitButton>
               </div>
             </div>
           </CardFooter>
