@@ -13,6 +13,7 @@ import { TodoItem } from '@/lib/types/TodoItem'
 import { TrashIcon, PencilIcon } from '@heroicons/react/24/outline'
 import SubmitButton from '../SubmitButton'
 import { useState } from 'react'
+import { Checkbox } from '@/shadcn/ui/checkbox'
 interface TodoCardProps {
   todo: TodoItem
 }
@@ -56,7 +57,7 @@ export default function TodoCard({ todo }: TodoCardProps) {
 
   return (
     <Card className='group relative border border-zinc-600'>
-      <div className='mb-2 flex'>
+      <div className='mb-2  justify-center'>
         <form className=' items-center '>
           {isEditing ? (
             <>
@@ -107,6 +108,16 @@ export default function TodoCard({ todo }: TodoCardProps) {
               </CardHeader>
               <CardContent>
                 <p>{todo.message}</p>
+
+                <div className='mb-10 mb-10 flex flex-row gap-2'>
+                  <Checkbox
+                    className='border-1 ml-2 mr-2 mt-1 h-5 w-5 rounded-sm border border-zinc-500'
+                    id='done'
+                  />
+                  <div>
+                    <label>Hecho</label>
+                  </div>
+                </div>
               </CardContent>
             </>
           )}
