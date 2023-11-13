@@ -14,6 +14,8 @@ import { TrashIcon, PencilIcon } from '@heroicons/react/24/outline'
 import SubmitButton from '../SubmitButton'
 import { useState } from 'react'
 import { Checkbox } from '@/shadcn/ui/checkbox'
+import { Badge } from '@/shadcn/ui/badge'
+import { TailSpin } from 'react-loader-spinner'
 interface TodoCardProps {
   todo: TodoItem
 }
@@ -22,6 +24,7 @@ export default function TodoCard({ todo }: TodoCardProps) {
   const [isEditing, setEditing] = useState(false)
   const [editedName, setEditedName] = useState(todo.name)
   const [editedMessage, setEditedMessage] = useState(todo.message)
+  const [isCheckingDone, setIsCheckingDone] = useState(false)
 
   //Controlling which input is being edited
 
@@ -55,17 +58,29 @@ export default function TodoCard({ todo }: TodoCardProps) {
     setEditing(false)
   }
 
+  const handleCheckedChange = async () => {
+    setIsCheckingDone(true)
+    await updateTodoItem(todo._id, { done: !todo.done })
+    setIsCheckingDone(false)
+  }
+
   return (
-    <Card className='group relative border border-zinc-600'>
-      <div className='mb-2  justify-center'>
-        <form className=' items-center '>
+    <Card
+      className={`group relative ${
+        todo.done
+          ? 'rounded-md border border-emerald-500'
+          : 'border border-zinc-600'
+      }`}
+    >
+      <div className='mb-2 ml-5 flex flex-row justify-start'>
+        <form className='items-center '>
           {isEditing ? (
             <>
               <CardHeader>
                 <CardTitle>
                   <input
                     type='text'
-                    className='mr-2 rounded border border-gray-300 px-2 py-1'
+                    className='mr-2 mt-2 rounded border border-gray-300 px-2 py-1 text-lg'
                     value={editedName}
                     onChange={e => {
                       setEditedName(e.target.value)
@@ -77,7 +92,7 @@ export default function TodoCard({ todo }: TodoCardProps) {
               <CardContent>
                 <input
                   type='text'
-                  className='mr-2 rounded border border-gray-300 px-2 py-1'
+                  className='mr-2 mt-2 rounded border border-gray-300 px-2 py-1 text-lg'
                   value={editedMessage}
                   onChange={e => {
                     setEditedMessage(e.target.value)
@@ -86,19 +101,18 @@ export default function TodoCard({ todo }: TodoCardProps) {
                 />
               </CardContent>
               <SubmitButton
-                style='mr-2'
+                style='mr-2 bg-indigo-500 p-1 border border-0 rounded-md hover:bg-zinc-400 dark:hover:bg-slate-700'
                 formAction={() => {
                   handleConfirmClick()
                 }}
               >
-                <p className='rounded-md hover:bg-zinc-400 dark:hover:bg-slate-700'>
-                  Confirm
-                </p>
+                <p className='rounded-md text-sm text-zinc-200'>Confirm</p>
               </SubmitButton>
-              <button onClick={handleCancelClick}>
-                <p className='rounded-md hover:bg-zinc-400 dark:hover:bg-slate-700'>
-                  Cancel
-                </p>
+              <button
+                onClick={handleCancelClick}
+                className='rounded-md border-0 bg-rose-800 p-1 hover:bg-zinc-400 dark:hover:bg-slate-700'
+              >
+                <p className='rounded-md text-sm text-zinc-200'>Cancel</p>
               </button>
             </>
           ) : (
@@ -109,14 +123,32 @@ export default function TodoCard({ todo }: TodoCardProps) {
               <CardContent>
                 <p>{todo.message}</p>
 
-                <div className='mb-10 mb-10 flex flex-row gap-2'>
+                <div className='mb-2 mt-2 flex flex-row gap-2'>
+                  <Badge variant='secondary' className='border-zinc-600 p-2'>
+                    <p className='text-xs'>Hecho: </p>
+                  </Badge>
+
                   <Checkbox
-                    className='border-1 ml-2 mr-2 mt-1 h-5 w-5 rounded-sm border border-zinc-500'
+                    checked={todo.done}
+                    disabled={isCheckingDone}
+                    onCheckedChange={handleCheckedChange}
+                    className='border-1 ml-2 mr-2 mt-2 h-5 w-5 rounded-sm border border-zinc-500'
                     id='done'
                   />
-                  <div>
-                    <label>Hecho</label>
-                  </div>
+
+                  {isCheckingDone && (
+                    <TailSpin
+                      height='20'
+                      width='20'
+                      color='#4fa94d'
+                      ariaLabel='tail-spin-loading'
+                      radius='1'
+                      visible={true}
+                      wrapperClass='bg-inherit'
+                    />
+                  )}
+
+                  <div className='ml-10'></div>
                 </div>
               </CardContent>
             </>

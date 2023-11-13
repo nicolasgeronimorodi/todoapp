@@ -19,6 +19,7 @@ interface EntryResult {
   _id: string
   name: string
   message: string
+  done?: boolean
   updatedAt: Date
 }
 
@@ -85,8 +86,6 @@ export const getGuestbookEntries =
     try {
       if (!guestbook) await init()
 
-      console.log('fetching entries...')
-
       const entries = await guestbook
         .find({})
         .map(
@@ -94,10 +93,12 @@ export const getGuestbookEntries =
             _id: entry._id.toString(),
             name: entry.name,
             message: entry.message,
+            done: entry.done,
             updatedAt: entry.date
           })
         )
         .toArray()
+      console.log('fetching entries...', entries)
       return { success: true, data: entries }
     } catch (error) {
       return { success: false, error: 'Failed to fetch guestbook!' }
@@ -202,6 +203,7 @@ export const searchTodos = async ({
           _id: entry._id.toString(),
           name: entry.name,
           message: entry.message,
+          done: entry.done,
           updatedAt: entry.date
         })
       )

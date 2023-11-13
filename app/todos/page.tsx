@@ -9,7 +9,7 @@ import { TailSpin } from '@/app/components/TailSpin'
 import TodoCardGrid from '../components/card_view/TodoCardGrid'
 import Search from '../components/Search'
 import { TodoItem } from '@/lib/types/TodoItem'
-import TodoList from '../components/list_view/TodoList'
+//import TodoList from '../components/list_view/TodoList'
 export const dynamic = 'force-dynamic'
 
 async function getData({
@@ -28,7 +28,7 @@ async function getData({
   if (!data || error) {
     throw new Error('Failed to fetch entries.')
   }
-  console.log(data)
+  console.log('data ', data)
   return data
 }
 
@@ -64,9 +64,9 @@ const Page = async ({
   return (
     <section className='py-24'>
       <div className='container'>
-        <h1 className='mb-8 text-3xl font-bold'>To-Do List</h1>
+        <h1 className='mb-8 text-3xl font-bold'>Planificador</h1>
         <h2 className='mb-5'>
-          Write down your tasks so you can remember them later!
+          Escribe tus tareas para que puedas recordarlas luego!
         </h2>
 
         <GuestbookEntryForm />

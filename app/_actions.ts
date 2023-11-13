@@ -3,6 +3,7 @@
 interface UpdateTodoItemObject {
   name?: string
   message?: string
+  done?: boolean
 }
 
 //import {z} from 'zod';
@@ -27,14 +28,19 @@ export async function updateName({
 
 export async function updateTodoItem(
   id: string,
-  { name, message }: UpdateTodoItemObject
+  { name, message, done }: UpdateTodoItemObject
 ) {
+  console.log('name, message, done: ', name, message, done)
   const updateFields: UpdateTodoItemObject = {}
   if (name !== undefined && name !== null) {
     updateFields.name = name
   }
   if (message !== undefined && message !== null) {
     updateFields.message = message
+  }
+
+  if (done !== undefined && done !== null) {
+    updateFields.done = done
   }
 
   const result = UpdateEntrySchema.safeParse(updateFields)
