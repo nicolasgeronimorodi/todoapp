@@ -27,6 +27,7 @@ export interface NewEntryProps {
   userId: string
   name: string
   message: string
+  scheduledDate: Date
 }
 
 type GetGuestbookEntriesResponse = {
@@ -108,7 +109,8 @@ export const getGuestbookEntries =
 export const createGuestbookEntry = async ({
   userId,
   name,
-  message
+  message,
+  scheduledDate
 }: NewEntryProps): Promise<CreateGuestbookEntryResponse> => {
   try {
     if (!guestbook) await init()
@@ -117,6 +119,7 @@ export const createGuestbookEntry = async ({
       userId,
       name,
       message,
+      scheduledDate,
       updatedAt: new Date()
     })
     return { success: true, data: result }

@@ -1,6 +1,7 @@
 'use client'
 import { useSession } from 'next-auth/react'
-
+import { DatePickerDemo } from './DatePicker'
+import ReactDayPicker from './ReactDayPicker'
 import { addGuestbookEntry } from '@/app/_actions'
 import { useRef, useState } from 'react'
 import SubmitButton from '@/app/components/SubmitButton'
@@ -14,6 +15,7 @@ const GuestbookEntryForm = () => {
     const newEntry = {
       userId: session?.user._id,
       name: data.get('name'),
+
       message: data.get('message')
     }
     const result = await addGuestbookEntry(newEntry)
@@ -53,6 +55,9 @@ const GuestbookEntryForm = () => {
           {validationError.message._errors.join(', ')}
         </p>
       )}
+
+      <DatePickerDemo />
+
       <SubmitButton style='rounded bg-black px-3 py-1 text-white disabled:opacity-50 dark:bg-white dark:text-black'>
         <h3>Add</h3>
       </SubmitButton>

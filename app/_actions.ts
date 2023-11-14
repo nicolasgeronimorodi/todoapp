@@ -63,10 +63,15 @@ export async function addGuestbookEntry(data: any) {
   if (!result.success) {
     return { error: result.error.format() }
   }
-  const { name, message } = result.data
+  const { name, message, scheduledDate } = result.data
   //End of action level validation
 
-  const response = await createGuestbookEntry({ userId, name, message })
+  const response = await createGuestbookEntry({
+    userId,
+    name,
+    message,
+    scheduledDate
+  })
   if (!response.success) {
     throw new Error(response.error)
   }
