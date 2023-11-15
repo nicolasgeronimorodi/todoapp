@@ -64,6 +64,11 @@ const GuestbookEntryForm = () => {
         selectedDate={selectedDate}
         onDateChange={setSelectedDate}
       />
+      {validationError?.scheduledDate && (
+        <p className='text-sm text-red-400'>
+          {validationError.scheduledDate._errors.join(', ')}
+        </p>
+      )}
 
       <SubmitButton style='rounded bg-black px-3 py-1 text-white disabled:opacity-50 dark:bg-white dark:text-black'>
         <h3>Add</h3>

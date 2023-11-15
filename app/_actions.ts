@@ -4,6 +4,7 @@ interface UpdateTodoItemObject {
   name?: string
   message?: string
   done?: boolean
+  scheduledDate?: Date
 }
 
 //import {z} from 'zod';
@@ -15,6 +16,7 @@ import {
   updateGuestbookEntry
 } from '@/lib/mongo/guestbook'
 import { revalidatePath } from 'next/cache'
+import { Console } from 'console'
 
 export async function updateName({
   email,
@@ -28,9 +30,15 @@ export async function updateName({
 
 export async function updateTodoItem(
   id: string,
-  { name, message, done }: UpdateTodoItemObject
+  { name, message, done, scheduledDate }: UpdateTodoItemObject
 ) {
-  console.log('name, message, done: ', name, message, done)
+  console.log(
+    'name, message, done, scheduledDate: ',
+    name,
+    message,
+    done,
+    scheduledDate
+  )
   const updateFields: UpdateTodoItemObject = {}
   if (name !== undefined && name !== null) {
     updateFields.name = name
@@ -42,6 +50,12 @@ export async function updateTodoItem(
   if (done !== undefined && done !== null) {
     updateFields.done = done
   }
+
+  if (scheduledDate !== undefined && scheduledDate !== null) {
+    updateFields.scheduledDate = scheduledDate
+  }
+
+  console.log('updateFields ', updateFields)
 
   const result = UpdateEntrySchema.safeParse(updateFields)
   if (!result.success) {

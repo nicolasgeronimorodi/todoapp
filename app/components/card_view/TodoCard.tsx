@@ -20,16 +20,22 @@ interface TodoCardProps {
   todo: TodoItem
 }
 
+import { DatePickerDemo } from '../DatePicker'
+import { setDate } from 'date-fns'
+
 export default function TodoCard({ todo }: TodoCardProps) {
   const [isEditing, setEditing] = useState(false)
   const [editedName, setEditedName] = useState(todo.name)
   const [editedMessage, setEditedMessage] = useState(todo.message)
+  const [editedDate, setEditedDate] = useState<Date | undefined>()
   const [isCheckingDone, setIsCheckingDone] = useState(false)
 
   //Controlling which input is being edited
 
   const [nameEdited, setNameEdited] = useState(false)
   const [messageEdited, setMessageEdited] = useState(false)
+  const [dateEdited, setDateEdited] = useState(false)
+
   const handleEditClick = () => {
     setEditing(true)
   }
@@ -44,6 +50,56 @@ export default function TodoCard({ todo }: TodoCardProps) {
     } else if (messageEdited) {
       console.log('description field got edited')
       await updateTodoItem(todo._id, { message: editedMessage })
+    }
+
+    setEditing(false)
+  }
+
+  const switchHandleConfirmClick = async () => {
+    switch (true) {
+      case nameEdited && messageEdited && dateEdited:
+        console.log('All fields got edited')
+        await updateTodoItem(todo._id, {
+          name: editedName,
+          message: editedMessage,
+          scheduledDate: editedDate
+        })
+        break
+      case nameEdited && messageEdited:
+        console.log('Name and message fields got edited')
+        await updateTodoItem(todo._id, {
+          name: editedName,
+          message: editedMessage
+        })
+        break
+      case nameEdited && dateEdited:
+        console.log('Name and fooDate fields got edited')
+        await updateTodoItem(todo._id, {
+          name: editedName,
+          scheduledDate: editedDate
+        })
+        break
+      case messageEdited && dateEdited:
+        console.log('Message and fooDate fields got edited')
+        await updateTodoItem(todo._id, {
+          message: editedMessage,
+          scheduledDate: editedDate
+        })
+        break
+      case nameEdited:
+        console.log('Name field got edited')
+        await updateTodoItem(todo._id, { name: editedName })
+        break
+      case messageEdited:
+        console.log('Message field got edited')
+        await updateTodoItem(todo._id, { message: editedMessage })
+        break
+      case dateEdited:
+        console.log('editedDate field got edited')
+        await updateTodoItem(todo._id, { scheduledDate: editedDate })
+        break
+      default:
+        console.log('No fields got edited')
     }
 
     setEditing(false)
@@ -99,11 +155,19 @@ export default function TodoCard({ todo }: TodoCardProps) {
                     setMessageEdited(true)
                   }}
                 />
+
+                <DatePickerDemo
+                  onSelectDate={() => {
+                    setDateEdited(true)
+                  }}
+                  selectedDate={editedDate}
+                  onDateChange={setEditedDate}
+                />
               </CardContent>
               <SubmitButton
                 style='mr-2 bg-indigo-500 p-1 border border-0 rounded-md hover:bg-zinc-400 dark:hover:bg-slate-700'
                 formAction={() => {
-                  handleConfirmClick()
+                  switchHandleConfirmClick()
                 }}
               >
                 <p className='rounded-md text-sm text-zinc-200'>Confirm</p>

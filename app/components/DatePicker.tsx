@@ -14,16 +14,22 @@ import { format } from 'date-fns'
 
 interface DatePickerProps {
   selectedDate: Date | undefined
+  onSelectDate?: () => void
   onDateChange: SelectSingleEventHandler
 }
 
 export function DatePickerDemo({
   selectedDate,
-  onDateChange
+  onDateChange,
+  onSelectDate
 }: DatePickerProps) {
   let footer = <p>Please pick a day.</p>
   if (selectedDate) {
     footer = <p>You picked {format(selectedDate, 'PPP')}.</p>
+  }
+
+  if (onSelectDate) {
+    onSelectDate()
   }
 
   return (
