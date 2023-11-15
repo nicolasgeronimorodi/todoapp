@@ -21,6 +21,7 @@ interface EntryResult {
   message: string
   done?: boolean
   updatedAt: Date
+  scheduledDate: Date
 }
 
 export interface NewEntryProps {
@@ -95,7 +96,8 @@ export const getGuestbookEntries =
             name: entry.name,
             message: entry.message,
             done: entry.done,
-            updatedAt: entry.date
+            updatedAt: entry.date,
+            scheduledDate: entry.scheduledDate
           })
         )
         .toArray()
@@ -207,7 +209,8 @@ export const searchTodos = async ({
           name: entry.name,
           message: entry.message,
           done: entry.done,
-          updatedAt: entry.date
+          updatedAt: entry.date,
+          scheduledDate: entry.scheduledDate
         })
       )
       .toArray()

@@ -147,8 +147,15 @@ export default function TodoCard({ todo }: TodoCardProps) {
                       wrapperClass='bg-inherit'
                     />
                   )}
+                </div>
 
-                  <div className='ml-10'></div>
+                <div className='mb-2 mt-2 flex flex-row gap-2'>
+                  <Badge variant='secondary' className='border-zinc-600 p-2'>
+                    <p className='text-xs'>Fechado: </p>
+                  </Badge>
+                  <p className='mt-2 text-sm'>
+                    {todo.scheduledDate.toLocaleDateString()}
+                  </p>
                 </div>
               </CardContent>
             </>

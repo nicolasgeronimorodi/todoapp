@@ -1,4 +1,5 @@
 'use client'
+
 import { useSession } from 'next-auth/react'
 import { DatePickerDemo } from './DatePicker'
 import ReactDayPicker from './ReactDayPicker'
@@ -8,14 +9,17 @@ import SubmitButton from '@/app/components/SubmitButton'
 const GuestbookEntryForm = () => {
   const { data: session } = useSession()
   const formRef = useRef<HTMLFormElement>(null)
-  const [validationError, setValidationError] = useState<any>(null)
+
+  const [validationError, setValidationError] = useState<any>(null) //Mejorar ese any!
+
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>()
 
   // client action calling a server action
   async function action(data: FormData) {
     const newEntry = {
       userId: session?.user._id,
       name: data.get('name'),
-
+      scheduledDate: selectedDate,
       message: data.get('message')
     }
     const result = await addGuestbookEntry(newEntry)
@@ -56,7 +60,10 @@ const GuestbookEntryForm = () => {
         </p>
       )}
 
-      <DatePickerDemo />
+      <DatePickerDemo
+        selectedDate={selectedDate}
+        onDateChange={setSelectedDate}
+      />
 
       <SubmitButton style='rounded bg-black px-3 py-1 text-white disabled:opacity-50 dark:bg-white dark:text-black'>
         <h3>Add</h3>

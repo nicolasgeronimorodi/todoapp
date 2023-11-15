@@ -6,15 +6,24 @@ import { CalendarDaysIcon } from '@heroicons/react/20/solid'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/shadcn/ui/button'
-
+//import type { ActiveModifiers } from 'react-day-picker'
+import type { SelectSingleEventHandler } from 'react-day-picker'
 import { Popover, PopoverContent, PopoverTrigger } from '@/shadcn/ui/popover'
 import { DayPicker } from 'react-day-picker'
 import { format } from 'date-fns'
-export function DatePickerDemo() {
-  const [date, setDate] = React.useState<Date>()
+
+interface DatePickerProps {
+  selectedDate: Date | undefined
+  onDateChange: SelectSingleEventHandler
+}
+
+export function DatePickerDemo({
+  selectedDate,
+  onDateChange
+}: DatePickerProps) {
   let footer = <p>Please pick a day.</p>
-  if (date) {
-    footer = <p>You picked {format(date, 'PPP')}.</p>
+  if (selectedDate) {
+    footer = <p>You picked {format(selectedDate, 'PPP')}.</p>
   }
 
   return (
@@ -24,18 +33,22 @@ export function DatePickerDemo() {
           variant={'outline'}
           className={cn(
             'w-[240px] justify-start text-left font-normal',
-            !date && 'text-muted-foreground'
+            !selectedDate && 'text-muted-foreground'
           )}
         >
           <CalendarDaysIcon className='mr-2 h-4 w-4' />
-          {date ? format(date, 'PPP') : <span>Pick a date</span>}
+          {selectedDate ? (
+            format(selectedDate, 'PPP')
+          ) : (
+            <span>Pick a date</span>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-auto bg-slate-900 p-0' align='start'>
         <DayPicker
           mode='single'
-          selected={date}
-          onSelect={setDate}
+          selected={selectedDate}
+          onSelect={onDateChange}
           footer={footer}
         />
       </PopoverContent>

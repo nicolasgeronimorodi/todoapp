@@ -3,4 +3,5 @@ export interface TodoItem {
   name: string
   message: string
   done?: boolean
+  scheduledDate: Date
 }
