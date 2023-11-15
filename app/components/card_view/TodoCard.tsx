@@ -156,16 +156,18 @@ export default function TodoCard({ todo }: TodoCardProps) {
                   }}
                 />
 
-                <DatePickerDemo
-                  onSelectDate={() => {
-                    setDateEdited(true)
-                  }}
-                  selectedDate={editedDate}
-                  onDateChange={setEditedDate}
-                />
+                <div className='mt-2'>
+                  <DatePickerDemo
+                    onSelectDate={() => {
+                      setDateEdited(true)
+                    }}
+                    selectedDate={editedDate}
+                    onDateChange={setEditedDate}
+                  />
+                </div>
               </CardContent>
               <SubmitButton
-                style='mr-2 bg-indigo-500 p-1 border border-0 rounded-md hover:bg-zinc-400 dark:hover:bg-slate-700'
+                style='mr-2 bg-indigo-500 p-1 border border-0 rounded-md hover:bg-zinc-400 dark:hover:bg-slate-700 mt-1'
                 formAction={() => {
                   switchHandleConfirmClick()
                 }}
@@ -174,7 +176,7 @@ export default function TodoCard({ todo }: TodoCardProps) {
               </SubmitButton>
               <button
                 onClick={handleCancelClick}
-                className='rounded-md border-0 bg-rose-800 p-1 hover:bg-zinc-400 dark:hover:bg-slate-700'
+                className='mt-1 rounded-md border-0 bg-rose-800 p-1 hover:bg-zinc-400 dark:hover:bg-slate-700'
               >
                 <p className='rounded-md text-sm text-zinc-200'>Cancel</p>
               </button>
