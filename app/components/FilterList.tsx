@@ -1,3 +1,4 @@
+'use client'
 import {
   Menubar,
   MenubarCheckboxItem,
@@ -13,19 +14,26 @@ import {
   MenubarSubTrigger,
   MenubarTrigger
 } from '@/shadcn/ui/menubar'
-
+import { useRouter } from 'next/navigation'
+import { useRef } from 'react'
 import Link from 'next/link'
 
 export function FilterList() {
+  const router = useRouter()
+
   return (
     <div className='z-10 bg-slate-700'>
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>Filtrar por</MenubarTrigger>
           <MenubarContent className='z-10 bg-slate-700'>
-            <Link href={'/latest'}>
-              <MenubarItem>Mas reciente</MenubarItem>
-            </Link>
+            <MenubarItem
+              onClick={() => {
+                router.push('/todos?scheduledDateOrder=latest')
+              }}
+            >
+              Mas reciente
+            </MenubarItem>
           </MenubarContent>
         </MenubarMenu>
       </Menubar>

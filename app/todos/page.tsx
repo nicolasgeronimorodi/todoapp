@@ -49,7 +49,7 @@ const Page = async ({
 
   const scheduledDateOrder =
     typeof searchParams.scheduledDateOrder === 'string'
-      ? searchParams.search
+      ? searchParams.scheduledDateOrder
       : undefined
 
   const session = await getServerSession(authOptions)
@@ -62,7 +62,13 @@ const Page = async ({
     if (typeof userId === 'undefined') {
       throw new Error('UserID is undefined')
     }
-    todos = await getData({ userId, page, limit, query: search })
+    todos = await getData({
+      userId,
+      page,
+      limit,
+      query: search,
+      scheduledDateOrder
+    })
   } catch (error) {
     console.error('Error fetching data:', error)
     todos = []
