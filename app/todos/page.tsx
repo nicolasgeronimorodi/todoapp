@@ -11,17 +11,19 @@ import Search from '../components/Search'
 import { TodoItem } from '@/lib/types/TodoItem'
 //import TodoList from '../components/list_view/TodoList'
 export const dynamic = 'force-dynamic'
-
+import { FilterList } from '../components/FilterList'
 async function getData({
   userId,
   page,
   limit,
-  query
+  query,
+  scheduledDateOrder
 }: {
   userId: string
   page: number
   limit: number
   query: string | undefined
+  scheduledDateOrder?: string
 }) {
   const { data, error } = await searchTodos({ userId, page, limit, query })
 
@@ -44,6 +46,11 @@ const Page = async ({
 
   const search =
     typeof searchParams.search === 'string' ? searchParams.search : undefined
+
+  const scheduledDateOrder =
+    typeof searchParams.scheduledDateOrder === 'string'
+      ? searchParams.search
+      : undefined
 
   const session = await getServerSession(authOptions)
   if (!session || !session.user) {
@@ -71,7 +78,17 @@ const Page = async ({
 
         <GuestbookEntryForm />
         <br></br>
-        <Search />
+
+        <div className='flex gap-2'>
+          <div className='flex-grow'>
+            {' '}
+            <Search />
+          </div>
+          <div className='flex-shrink-0'>
+            {' '}
+            <FilterList />
+          </div>
+        </div>
 
         <Suspense
           fallback={

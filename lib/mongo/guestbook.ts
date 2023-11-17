@@ -166,11 +166,13 @@ export const updateGuestbookEntry = async (
 export const searchTodos = async ({
   userId,
   query,
+  scheduledDateOrder,
   page = 1,
   limit = 10
 }: {
   userId: string
   query?: string
+  scheduledDateOrder?: string
   page: number
   limit: number
 }) => {
