@@ -1,4 +1,5 @@
 import { authOptions } from '../api/auth/[...nextauth]/route'
+import clsx from 'clsx'
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { searchTodos } from '@/lib/mongo/guestbook'
@@ -6,6 +7,7 @@ import GuestbookEntryForm from '@/app/components/GuestbookEntryForm'
 import { Suspense } from 'react'
 import { TailSpin } from '@/app/components/TailSpin'
 //import TodoTable from '../components/table_view/TodoTable'
+import Link from 'next/link'
 import TodoCardGrid from '../components/card_view/TodoCardGrid'
 import Search from '../components/Search'
 import { TodoItem } from '@/lib/types/TodoItem'
@@ -25,12 +27,19 @@ async function getData({
   query: string | undefined
   scheduledDateOrder?: string
 }) {
-  const { data, error } = await searchTodos({ userId, page, limit, query })
+  console.log('params: ', userId, page, limit, query, scheduledDateOrder)
+  const { data, error } = await searchTodos({
+    userId,
+    page,
+    limit,
+    query,
+    scheduledDateOrder
+  })
 
   if (!data || error) {
     throw new Error('Failed to fetch entries.')
   }
-  console.log('data ', data)
+  //console.log('data ', data)
   return data
 }
 
@@ -90,6 +99,37 @@ const Page = async ({
             {' '}
             <Search />
           </div>
+
+          <div className=' space-x-6'>
+            <Link
+              href={{
+                pathname: '/movies',
+                query: {
+                  ...(search ? { search } : {}),
+                  page: page > 1 ? page - 1 : 1
+                }
+              }}
+              className={clsx(
+                'rounded border bg-gray-100 px-3 py-1 text-sm text-gray-800',
+                page <= 1 && 'pointer-events-none opacity-50'
+              )}
+            >
+              Previous
+            </Link>
+            <Link
+              href={{
+                pathname: '/movies',
+                query: {
+                  ...(search ? { search } : {}),
+                  page: page + 1
+                }
+              }}
+              className='rounded border bg-gray-100 px-3 py-1 text-sm text-gray-800'
+            >
+              Next
+            </Link>
+          </div>
+
           <div className='flex-shrink-0'>
             {' '}
             <FilterList />

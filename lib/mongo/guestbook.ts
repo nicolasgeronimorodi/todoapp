@@ -176,13 +176,15 @@ export const searchTodos = async ({
   page: number
   limit: number
 }) => {
+  const sortScheduledDateOrder = scheduledDateOrder === 'latest' ? -1 : 1
   try {
     if (!guestbook) await init()
     const skip = (page - 1) * limit
     const pipeline: PipelineStage[] = [
       { $match: { userId: userId } },
       { $skip: skip },
-      { $limit: limit }
+      { $limit: limit },
+      { $sort: { updatedAt: sortScheduledDateOrder } }
     ]
     if (query) {
       pipeline.unshift({
@@ -204,7 +206,9 @@ export const searchTodos = async ({
     }
 
     const entries = await guestbook
+
       .aggregate(pipeline)
+
       .map(
         (entry): EntryResult => ({
           _id: entry._id.toString(),
@@ -244,5 +248,10 @@ type PipelineStage =
   | {
       $match: {
         userId: string
+      }
+    }
+  | {
+      $sort: {
+        updatedAt: number
       }
     }

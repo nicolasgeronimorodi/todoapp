@@ -34,6 +34,14 @@ export function FilterList() {
             >
               Mas reciente
             </MenubarItem>
+
+            <MenubarItem
+              onClick={() => {
+                router.push('/todos?scheduledDateOrder=oldest')
+              }}
+            >
+              Mas antiguo
+            </MenubarItem>
           </MenubarContent>
         </MenubarMenu>
       </Menubar>
