@@ -176,6 +176,7 @@ export const searchTodos = async ({
   page: number
   limit: number
 }) => {
+  const itemsPerPage = 6
   const sortScheduledDateOrder = scheduledDateOrder === 'latest' ? -1 : 1
   try {
     if (!guestbook) await init()
@@ -220,7 +221,8 @@ export const searchTodos = async ({
         })
       )
       .toArray()
-    return { success: true, data: entries }
+    const totalPages = Math.ceil(entries.length / itemsPerPage)
+    return { success: true, data: { entries: entries, totalPages: totalPages } }
   } catch (error) {
     return { success: false, error: 'Failed to fetch guestbook!' }
   }

@@ -6,6 +6,7 @@ import { searchTodos } from '@/lib/mongo/guestbook'
 import GuestbookEntryForm from '@/app/components/GuestbookEntryForm'
 import { Suspense } from 'react'
 import { TailSpin } from '@/app/components/TailSpin'
+import Pagination from '../components/pagination'
 //import TodoTable from '../components/table_view/TodoTable'
 import Link from 'next/link'
 import TodoCardGrid from '../components/card_view/TodoCardGrid'
@@ -67,20 +68,24 @@ const Page = async ({
   }
   const userId = session?.user._id
   let todos: TodoItem[]
+  let pages: number
   try {
     if (typeof userId === 'undefined') {
       throw new Error('UserID is undefined')
     }
-    todos = await getData({
+    const { entries, totalPages } = await getData({
       userId,
       page,
       limit,
       query: search,
       scheduledDateOrder
     })
+    todos = entries
+    pages = totalPages
   } catch (error) {
     console.error('Error fetching data:', error)
     todos = []
+    pages = 0
   }
 
   return (
@@ -153,9 +158,19 @@ const Page = async ({
         >
           <TodoCardGrid todos={todos} />
         </Suspense>
+        <div className='mt-5 flex w-full justify-center'>
+          <Pagination totalPages={pages} />
+        </div>
       </div>
     </section>
   )
 }
 
 export default Page
+
+{
+  /* 
+
+NOTA: En proceso de migrar paginacion como estaba en commit anterior a paginacion basada en el tutorial https://nextjs.org/learn/dashboard-app/adding-search-and-pagination
+*/
+}
