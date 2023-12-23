@@ -216,12 +216,26 @@ export default function TodoCard({ todo }: TodoCardProps) {
                 </div>
 
                 <div className='mb-2 mt-2 flex flex-row gap-2'>
-                  <Badge variant='secondary' className='border-zinc-600 p-2'>
-                    <p className='text-xs'>Fechado: </p>
-                  </Badge>
-                  <p className='mt-2 text-sm'>
-                    {todo.scheduledDate.toLocaleDateString()}
-                  </p>
+                  {todo.scheduledDate ? (
+                    <>
+                      <Badge
+                        variant='secondary'
+                        className='border-zinc-600 p-2'
+                      >
+                        <p className='text-xs'>Fechado: </p>
+                      </Badge>
+                      <p className='mt-2 text-sm'>
+                        {todo.scheduledDate.toDateString()}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <Badge variant='secondary' className='hidden'>
+                        <p className='hidden'>Fechado: </p>
+                      </Badge>
+                      <p className='hidden'>''</p>
+                    </>
+                  )}
                 </div>
               </CardContent>
             </>
