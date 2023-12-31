@@ -16,6 +16,7 @@ import { useState } from 'react'
 import { Checkbox } from '@/shadcn/ui/checkbox'
 import { Badge } from '@/shadcn/ui/badge'
 import { TailSpin } from 'react-loader-spinner'
+import TodoCardModal from './TodoCardModal'
 interface TodoCardProps {
   todo: TodoItem
 }
@@ -250,6 +251,7 @@ export default function TodoCard({ todo }: TodoCardProps) {
             <CardFooter>
               <div className='absolute right-0 mt-5'>
                 <div className='duration-50 -translate-y-1/2 transform opacity-0 transition group-hover:opacity-100'>
+                  <TodoCardModal todo={todo} />
                   <button type='button' onClick={handleEditClick}>
                     <PencilIcon className='h-5 w-5 text-blue-600' />
                   </button>
