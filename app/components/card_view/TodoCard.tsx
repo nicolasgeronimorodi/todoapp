@@ -124,11 +124,11 @@ export default function TodoCard({ todo }: TodoCardProps) {
     <Card
       className={`group relative ${
         todo.done
-          ? 'rounded-md border border-emerald-500'
-          : 'border border-zinc-600'
+          ? 'rounded-md border border-transparent'
+          : 'border border-transparent'
       }`}
     >
-      <div className='mb-2 ml-5 flex flex-row justify-start'>
+      <div className='mb-2 ml-5  justify-items-start'>
         <form className='items-center '>
           {isEditing ? (
             <>
@@ -187,7 +187,11 @@ export default function TodoCard({ todo }: TodoCardProps) {
                 <CardTitle>{todo.name}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>{todo.message}</p>
+                <p>
+                  {todo.message.length <= 40
+                    ? todo.message
+                    : `${todo.message.slice(0, 40)}...`}
+                </p>
 
                 <div className='mb-2 mt-2 flex flex-row gap-2'>
                   <Badge variant='secondary' className='border-zinc-600 p-2'>
