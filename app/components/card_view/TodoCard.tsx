@@ -130,7 +130,7 @@ export default function TodoCard({ todo }: TodoCardProps) {
         : 'rounded-md border border-zinc-600'
     }`}
     >
-      <Card className='border border-transparent'>
+      <Card className=' h-full  border border-transparent'>
         <div className='mb-2 ml-5  justify-items-start'>
           <form className='items-center '>
             {isEditing ? (
@@ -248,7 +248,7 @@ export default function TodoCard({ todo }: TodoCardProps) {
               </>
             )}
 
-            <CardFooter>
+            <CardFooter className='mt-50'>
               <div className='absolute right-0 mt-5'>
                 <div className='duration-50 -translate-y-1/2 transform opacity-0 transition group-hover:opacity-100'>
                   <TodoCardModal todo={todo} />
