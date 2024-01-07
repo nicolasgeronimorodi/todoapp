@@ -11,19 +11,22 @@ import type { SelectSingleEventHandler } from 'react-day-picker'
 import { Popover, PopoverContent, PopoverTrigger } from '@/shadcn/ui/popover'
 import { DayPicker } from 'react-day-picker'
 import { format } from 'date-fns'
+import { string } from 'zod'
 
 interface DatePickerProps {
   selectedDate: Date | undefined
   onSelectDate?: () => void
   onDateChange: SelectSingleEventHandler
+  placeholder: string
 }
 
 export function DatePickerDemo({
   selectedDate,
   onDateChange,
-  onSelectDate
+  onSelectDate,
+  placeholder
 }: DatePickerProps) {
-  let footer = <p>Please pick a day.</p>
+  let footer = <p>Elegir una fecha</p>
   if (selectedDate) {
     footer = <p>You picked {format(selectedDate, 'PPP')}.</p>
   }
@@ -46,7 +49,7 @@ export function DatePickerDemo({
           {selectedDate ? (
             format(selectedDate, 'PPP')
           ) : (
-            <span>Pick a date</span>
+            <span>{placeholder}</span>
           )}
         </Button>
       </PopoverTrigger>

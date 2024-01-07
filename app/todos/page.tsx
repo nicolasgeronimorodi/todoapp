@@ -108,7 +108,7 @@ const Page = async ({
           <div className=' space-x-6'>
             <Link
               href={{
-                pathname: '/movies',
+                pathname: '/todos',
                 query: {
                   ...(search ? { search } : {}),
                   page: page > 1 ? page - 1 : 1
@@ -123,7 +123,7 @@ const Page = async ({
             </Link>
             <Link
               href={{
-                pathname: '/movies',
+                pathname: '/todos',
                 query: {
                   ...(search ? { search } : {}),
                   page: page + 1
@@ -158,9 +158,7 @@ const Page = async ({
         >
           <TodoCardGrid todos={todos} />
         </Suspense>
-        <div className='mt-5 flex w-full justify-center'>
-          <Pagination totalPages={pages} />
-        </div>
+        <div className='mt-5 flex w-full justify-center'></div>
       </div>
     </section>
   )

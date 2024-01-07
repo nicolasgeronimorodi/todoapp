@@ -19,6 +19,9 @@ import { TrashIcon, PencilIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
 import { DatePickerDemo } from '../DatePicker'
 import { deleteTodoItem, updateTodoItem } from '../../_actions'
+import { TailSpin } from 'react-loader-spinner'
+import { Textarea } from '@/shadcn/ui/textarea'
+import { Input } from '@/shadcn/ui/input'
 interface TodoCardProps {
   todo: TodoItem
 }
@@ -115,13 +118,14 @@ export default function TodoCardModal({ todo }: TodoCardProps) {
           <p className='text-xs'>Expandir </p>
         </Button>
       </DialogTrigger>
-      <form>
-        <DialogContent className='fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-slate-900 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none'>
+
+      <DialogContent className='fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-slate-900 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none'>
+        <form>
           {isEditing ? (
             <>
               <DialogHeader>
                 <DialogTitle>
-                  <input
+                  <Input
                     type='text'
                     className='mr-2 mt-2 rounded border border-gray-300 px-2 py-1 text-lg'
                     value={editedName}
@@ -132,19 +136,19 @@ export default function TodoCardModal({ todo }: TodoCardProps) {
                   />
                 </DialogTitle>
                 <DialogDescription>
-                  <input
-                    type='text'
+                  <Textarea
                     className='mr-2 mt-2 rounded border border-gray-300 px-2 py-1 text-lg'
-                    value={editedName}
+                    value={editedMessage}
                     onChange={e => {
-                      setEditedName(e.target.value)
-                      setNameEdited(true)
+                      setEditedMessage(e.target.value)
+                      setMessageEdited(true)
                     }}
                   />
                 </DialogDescription>
               </DialogHeader>
               <div className='mt-2'>
                 <DatePickerDemo
+                  placeholder='Introduce la fecha'
                   onSelectDate={() => {
                     setDateEdited(true)
                   }}
@@ -155,6 +159,7 @@ export default function TodoCardModal({ todo }: TodoCardProps) {
               <SubmitButton
                 style='mr-2 bg-indigo-500 p-1 border border-0 rounded-md hover:bg-zinc-400 dark:hover:bg-slate-700 mt-1'
                 formAction={() => {
+                  console.log('confirm clicked on')
                   switchHandleConfirmClick()
                 }}
               >
@@ -177,32 +182,55 @@ export default function TodoCardModal({ todo }: TodoCardProps) {
                 </Badge>
 
                 <Checkbox
+                  checked={todo.done}
+                  disabled={isCheckingDone}
+                  onCheckedChange={handleCheckedChange}
                   className='border-1 ml-2 mr-2 mt-2 h-5 w-5 rounded-sm border border-zinc-500'
                   id='done'
                 />
+                {isCheckingDone && (
+                  <TailSpin
+                    height='20'
+                    width='20'
+                    color='#4fa94d'
+                    ariaLabel='tail-spin-loading'
+                    radius='1'
+                    visible={true}
+                    wrapperClass='bg-inherit'
+                  />
+                )}
               </div>
               <div className='mb-2 mt-2 flex flex-row gap-2'>
                 <Badge variant='secondary' className='border-zinc-600 p-2'>
                   <p className='text-xs'>Fechado: </p>
                 </Badge>
-                <p className='mt-2 text-sm'>Viernes 5 de julio, 2024</p>
+                <p className='mt-2 text-sm'>
+                  {' '}
+                  {todo.scheduledDate.toDateString()}
+                </p>
               </div>
             </DialogHeader>
           )}
+        </form>
 
-          <DialogFooter>
+        <DialogFooter>
+          {!isEditing ? (
             <div className='right-0'>
               <button type='button' onClick={handleEditClick}>
                 <PencilIcon className='h-5 w-5 text-blue-600' />
               </button>
 
-              <SubmitButton>
+              <SubmitButton
+                formAction={async () => {
+                  await deleteTodoItem(todo._id)
+                }}
+              >
                 <TrashIcon className='h-5 w-5 text-red-600' />
               </SubmitButton>
             </div>
-          </DialogFooter>
-        </DialogContent>
-      </form>
+          ) : null}
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   )
 }

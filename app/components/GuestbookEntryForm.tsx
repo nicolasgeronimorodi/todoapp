@@ -61,6 +61,7 @@ const GuestbookEntryForm = () => {
       )}
 
       <DatePickerDemo
+        placeholder='Introduce la fecha'
         selectedDate={selectedDate}
         onDateChange={setSelectedDate}
       />
