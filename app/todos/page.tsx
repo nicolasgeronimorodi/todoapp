@@ -52,7 +52,7 @@ const Page = async ({
   const page =
     typeof searchParams.page === 'string' ? Number(searchParams.page) : 1
   const limit =
-    typeof searchParams.limit === 'string' ? Number(searchParams.limit) : 10
+    typeof searchParams.limit === 'string' ? Number(searchParams.limit) : 9
 
   const search =
     typeof searchParams.search === 'string' ? searchParams.search : undefined
