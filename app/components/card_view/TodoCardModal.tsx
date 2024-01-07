@@ -39,6 +39,9 @@ export default function TodoCardModal({ todo }: TodoCardProps) {
   const [messageEdited, setMessageEdited] = useState(false)
   const [dateEdited, setDateEdited] = useState(false)
 
+  //Dialog open state
+  const [open, setOpen] = useState(false)
+
   const handleEditClick = () => {
     setEditing(true)
   }
@@ -109,7 +112,7 @@ export default function TodoCardModal({ todo }: TodoCardProps) {
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           className=' w-13 mb-0.2 fixed  bottom-[20%] right-[100%] h-6 rounded-md border border-zinc-700'
@@ -211,25 +214,25 @@ export default function TodoCardModal({ todo }: TodoCardProps) {
               </div>
             </DialogHeader>
           )}
+          <DialogFooter>
+            {!isEditing ? (
+              <div className='right-0'>
+                <button type='button' onClick={handleEditClick}>
+                  <PencilIcon className='h-5 w-5 text-blue-600' />
+                </button>
+
+                <SubmitButton
+                  formAction={async () => {
+                    await deleteTodoItem(todo._id)
+                    setOpen(false)
+                  }}
+                >
+                  <TrashIcon className='h-5 w-5 text-red-600' />
+                </SubmitButton>
+              </div>
+            ) : null}
+          </DialogFooter>
         </form>
-
-        <DialogFooter>
-          {!isEditing ? (
-            <div className='right-0'>
-              <button type='button' onClick={handleEditClick}>
-                <PencilIcon className='h-5 w-5 text-blue-600' />
-              </button>
-
-              <SubmitButton
-                formAction={async () => {
-                  await deleteTodoItem(todo._id)
-                }}
-              >
-                <TrashIcon className='h-5 w-5 text-red-600' />
-              </SubmitButton>
-            </div>
-          ) : null}
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
