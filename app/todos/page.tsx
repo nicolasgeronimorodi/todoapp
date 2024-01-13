@@ -88,6 +88,8 @@ const Page = async ({
     pages = 0
   }
 
+  console.log('totalPages at page level: ', pages)
+
   return (
     <section className='py-24'>
       <div className='container'>
@@ -129,7 +131,10 @@ const Page = async ({
                   page: page + 1
                 }
               }}
-              className='rounded border bg-gray-100 px-3 py-1 text-sm text-gray-800'
+              className={clsx(
+                'rounded border bg-gray-100 px-3 py-1 text-sm text-gray-800',
+                page >= pages && 'pointer-events-none opacity-50'
+              )}
             >
               Next
             </Link>

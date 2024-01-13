@@ -181,11 +181,29 @@ export const searchTodos = async ({
   try {
     if (!guestbook) await init()
     const skip = (page - 1) * limit
-    const pipeline: PipelineStage[] = [
+    const pipeline: any[] = [
       { $match: { userId: userId } },
-      { $skip: skip },
-      { $limit: limit },
-      { $sort: { updatedAt: sortScheduledDateOrder } }
+
+      { $sort: { updatedAt: sortScheduledDateOrder } },
+      {
+        $facet: {
+          paginatedResults: [{ $skip: skip }, { $limit: limit }],
+          totalCount: [{ $count: 'count' }]
+        }
+      },
+      {
+        $addFields: {
+          total: {
+            $ifNull: [{ $arrayElemAt: ['$totalCount.count', 0] }, 0]
+          }
+        }
+      },
+      {
+        $project: {
+          paginatedResults: 1,
+          total: 1
+        }
+      }
     ]
     if (query) {
       pipeline.unshift({
@@ -205,26 +223,28 @@ export const searchTodos = async ({
         }
       })
     }
+    const resultObject = await guestbook.aggregate(pipeline)
 
-    const entries = await guestbook
+    const resultArray = await guestbook.aggregate(pipeline).toArray()
+    console.log('resultArray: ', resultArray)
 
-      .aggregate(pipeline)
+    const entries = resultArray[0].paginatedResults.map(
+      (entry: Document): EntryResult => ({
+        _id: entry._id.toString(),
+        name: entry.name,
+        message: entry.message,
+        done: entry.done,
+        updatedAt: entry.date,
+        scheduledDate: entry.scheduledDate
+      })
+    )
 
-      .map(
-        (entry): EntryResult => ({
-          _id: entry._id.toString(),
-          name: entry.name,
-          message: entry.message,
-          done: entry.done,
-          updatedAt: entry.date,
-          scheduledDate: entry.scheduledDate
-        })
-      )
-      .toArray()
-    const totalPages = Math.ceil(entries.length / itemsPerPage)
+    const totalPages = Math.ceil(resultArray[0].total / limit)
+    console.log('totalPages: ', totalPages)
     return { success: true, data: { entries: entries, totalPages: totalPages } }
-  } catch (error) {
-    return { success: false, error: 'Failed to fetch guestbook!' }
+  } catch (error: any) {
+    console.log(error.message)
+    return { success: false, error: error.message }
   }
 }
 
