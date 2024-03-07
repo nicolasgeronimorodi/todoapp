@@ -29,6 +29,7 @@ const GuestbookEntryForm = () => {
       formRef.current?.reset()
       setValidationError(null)
     }
+    setSelectedDate(undefined)
   }
 
   return (

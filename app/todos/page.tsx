@@ -38,6 +38,7 @@ async function getData({
   })
 
   if (!data || error) {
+    console.log('error at getData page component: ', error)
     throw new Error('Failed to fetch entries.')
   }
   //console.log('data ', data)
@@ -82,10 +83,11 @@ const Page = async ({
     })
     todos = entries
     pages = totalPages
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching data:', error)
     todos = []
     pages = 0
+    throw new Error(error)
   }
 
   console.log('totalPages at page level: ', pages)

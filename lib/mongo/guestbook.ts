@@ -65,7 +65,9 @@ async function init() {
     client = await clientPromise
     db = client.db()
     guestbook = db.collection('guestbook')
+    // throw new Error('error on purpose')
   } catch (error) {
+    console.log('error at init')
     throw new Error('Failed to connect to the database.')
   }
 }
@@ -176,7 +178,6 @@ export const searchTodos = async ({
   page: number
   limit: number
 }) => {
-  const itemsPerPage = 6
   const sortScheduledDateOrder = scheduledDateOrder === 'latest' ? -1 : 1
   try {
     if (!guestbook) await init()
@@ -223,7 +224,6 @@ export const searchTodos = async ({
         }
       })
     }
-    const resultObject = await guestbook.aggregate(pipeline)
 
     const resultArray = await guestbook.aggregate(pipeline).toArray()
     console.log('resultArray: ', resultArray)
@@ -241,9 +241,10 @@ export const searchTodos = async ({
 
     const totalPages = Math.ceil(resultArray[0].total / limit)
     console.log('totalPages: ', totalPages)
+
     return { success: true, data: { entries: entries, totalPages: totalPages } }
   } catch (error: any) {
-    console.log(error.message)
+    console.log('error at searchTodos ', error.message)
     return { success: false, error: error.message }
   }
 }
